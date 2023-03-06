@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "common"
+name = "frontend"
 version = "0.1.0"
 description = ""
 authors = ["Your Name <you@example.com>"]
@@ -7,12 +7,12 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
+fastapi-viewsets = "^0.1.5"
+common = {path = "../../lib/common"}
 
+[tool.poetry.group.dev.dependencies]
+autopep8 = "^2.0.2"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-
-# packages = [
-#     { include = "common" },
-# ]
