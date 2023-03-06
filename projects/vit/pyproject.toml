@@ -1,13 +1,27 @@
 [tool.poetry]
 name = "vit"
 version = "0.1.0"
-description = "Vision Transformer for imagage recognistion of paintings."
+description = ""
 authors = ["Your Name <you@example.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "~3.10"
+vit-pytorch = {git = "https://github.com/lucidrains/vit-pytorch"}
+linformer = "^0.2.1"
+ipykernel = "^6.21.2"
+scikit-learn = "^1.2.1"
+matplotlib = "^3.7.1"
+tqdm = "^4.65.0"
+pandas = "^1.5.3"
+ipywidgets = "^8.0.4"
+iprogress = "^0.4"
+jupyter-core = "^5.2.0"
+jupyter = "^1.0.0"
 
+
+[tool.poetry.group.dev.dependencies]
+autopep8 = "^2.0.2"
 
 [build-system]
 requires = ["poetry-core"]
