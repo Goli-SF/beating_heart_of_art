@@ -3,3 +3,4 @@ __pycache__
 projects/vit/data/**
 projects/ml-test/data/**
 .DS_Store
+golnaz/
