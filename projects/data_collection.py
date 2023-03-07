@@ -17,6 +17,9 @@ def df_from_csv(local_path):
                               'Artist Display Name', 'Country', 'Object Date', 'Medium', 'Classification']]
     image_links_df.columns=['objectID', 'objectNR', 'title', 'objectName', 'artistDisplayName','country',
                                        'objectDate', 'medium', 'classification']
+    image_links_df.reset_index(inplace=True)
+    image_links_df.drop('index', axis=1, inplace=True)
+
     return image_links_df
 
 
@@ -26,7 +29,6 @@ def imagelink_collector(df):
     adds the 'imageURL' column to the input dataframe.
     """
 
-    df.reset_index()
     df['imageURL'] = ''
     for index, row in df.iterrows():
 
@@ -46,16 +48,16 @@ def imagelink_collector(df):
 
 def imagelink_csv_maker(df):
     """
-    takes a dataframe and saves it as a csv-file on the hard drive.
+    takes a dataframe that includes the imageURL-column and saves it as a csv-file on the hard drive.
     """
     df.to_csv('image_links.csv')
 
 
-def image_downloader(path):
+def image_downloader(local_path):
     """
     takes the path to a csv-file and downloads the images from the URLs provided in its imageURL-column.
     """
-    df= pd.read_csv(path)
+    df= pd.read_csv(local_path)
     for index, row in df[['objectID', 'imageURL']].iterrows():
         id= row['objectID']
         url= row['imageURL']
