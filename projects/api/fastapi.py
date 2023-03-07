@@ -3,7 +3,11 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
-@app.recommend("/")
+@app.get("/recommend")
+def dummy():
+    return{
+        'Message' : 'This is supposed to return the N most similar images'
+    }
 
 @app.get("/")
 def root():
