@@ -14,7 +14,7 @@ Each project and library has its own virtual environment. To create a new virtua
 poetry install
 ```
 
-To initialize a new project, run the following command in the project directory:
+To initialize a new project, run the following command in the new project directory:
 
 ```bash
 poetry init
@@ -30,6 +30,36 @@ Alternatively, you can run the following command to run a command in the virtual
 
 ```bash
 poetry run <command>
+```
+
+To add a new dependency, run the following command:
+
+```bash
+poetry add <package>
+```
+
+To add a development dependency, run the following command:
+
+```bash
+poetry add --dev <package>
+```
+
+To remove a dependency, run the following command:
+
+```bash
+poetry remove <package>
+```
+
+To update all dependencies, run the following command:
+
+```bash
+poetry update
+```
+
+To export the list of dependencies to a file, run the following command:
+
+```bash
+poetry export -f requirements.txt --output requirements.txt
 ```
 
 ## Code structure
