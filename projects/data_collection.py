@@ -3,13 +3,14 @@ from PIL import Image
 import pandas as pd
 import os
 from io import BytesIO
+import numpy as np
 
 def df_from_csv(local_path):
     """
     creates a dataframe with the desired columns from the csv-file of the metropolitan museum of art.
     """
 
-    metropol_csv=pd.read_csv(path)
+    metropol_csv=pd.read_csv(local_path)
     metropol_primary=pd.DataFrame(metropol_csv)
     metropol_df=metropol_primary[metropol_primary['Object Name'].isin(['Photograph', 'Painting', 'Drawing'])]
     image_links_df = metropol_df[['Object ID', 'Object Number', 'Title', 'Object Name',
@@ -48,6 +49,7 @@ def imagelink_csv_maker(df):
     takes a dataframe and saves it as a csv-file on the hard drive.
     """
     df.to_csv('image_links.csv')
+
 
 def image_downloader(path):
     """
