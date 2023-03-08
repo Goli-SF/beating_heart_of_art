@@ -1,9 +1,13 @@
 from fastapi import FastAPI
-#from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-@app.recommend("/")
+@app.get("/recommend")
+def dummy():
+    return{
+        'Message' : 'This page is supposed to return the N most similar images'
+    }
+
 
 @app.get("/")
 def root():
