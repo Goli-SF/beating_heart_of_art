@@ -4,3 +4,5 @@ projects/vit/data/**
 projects/ml-test/data/**
 .DS_Store
 golnaz/
+__pycache__
+.pytest_cache
