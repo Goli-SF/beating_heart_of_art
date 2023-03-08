@@ -15,9 +15,7 @@ PROJECT_FOLDER = os.getcwd()
 PREDICTION_URL = os.getenv('PREDICTION_URL', 'http://127.0.0.1:8000/uploader')
 
 
-def predict(image_data, num_of_results=5):
-    # # Convert the image to a string
-    # image_string = cv2.imencode('.jpg', image)[1].tostring()
+def predict(image_data, num_of_results=10):
 
     # encode image_data as enctype="multipart/form-data and post ist to the API
     response = requests.post(
@@ -28,7 +26,7 @@ def predict(image_data, num_of_results=5):
 
     # Get the prediction
     prediction = response.json()
-    print(prediction.get('nearest_neighbours'))
+    # print(prediction.get('nearest_neighbours'))
     # Convert the prediction to a dataframe
     df = pd.DataFrame(prediction.get('nearest_neighbours'))
     return df
