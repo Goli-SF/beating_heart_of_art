@@ -10,6 +10,8 @@ golnaz/
 __pycache__
 .pytest_cache
 
+*.pyc
+
 projects/ml-test/data/flower_images/flower_images/
 
 projects/ml-test/data/
