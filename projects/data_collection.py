@@ -53,6 +53,14 @@ def imagelink_csv_maker(df):
     df.to_csv('image_links.csv')
 
 
+def image_preprocessor(image):
+    """
+    takes an image and changes its size to 224x224 pixels for feeding it to the model.
+    """
+    resized_image = image.resize((224,224))
+    return resized_image
+
+
 def image_downloader(local_path):
     """
     takes the path to a csv-file and downloads the images from the URLs provided in its imageURL-column.
@@ -65,6 +73,6 @@ def image_downloader(local_path):
         response = requests.get(url)
         if response.status_code == 200:
             image = Image.open(BytesIO(response.content))
-            resized_image = image.resize((224,224))
+            resized_image= image_preprocessor(image)
             file_name= f'{id}.jpg'
             resized_image.save(file_name)
