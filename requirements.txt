@@ -33,6 +33,7 @@ psycopg2-binary
 fastapi
 pytz
 uvicorn
+ratelimit
 # tests
 # httpx
 # pytest-asyncio
