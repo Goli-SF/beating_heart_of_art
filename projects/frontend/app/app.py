@@ -12,7 +12,7 @@ from PIL import Image
 APP_TITLE = 'The beating heart of Art'
 APP_SUB_TITLE = 'Find similar artwork from the Metropolitan Museum of Art'
 PROJECT_FOLDER = os.getcwd()
-PREDICTION_URL = os.getenv('PREDICTION_URL', 'http://localhost:5000/predict')
+PREDICTION_URL = os.getenv('PREDICTION_URL', 'http://127.0.0.1:8000/uploader')
 
 
 def predict(image_data, num_of_results=5):
@@ -20,20 +20,22 @@ def predict(image_data, num_of_results=5):
     # image_string = cv2.imencode('.jpg', image)[1].tostring()
 
     # encode image_data as enctype="multipart/form-data and post ist to the API
-    # response = requests.post(
-    #     PREDICTION_URL,
-    #     files={'file': image_data},
-    #     data={'num_of_results': num_of_results}
-    # )
+    response = requests.post(
+        PREDICTION_URL,
+        files={'file': image_data},
+        data={'num_of_results': num_of_results}
+    )
 
     # Get the prediction
-    # prediction = json.loads(response.text)
-    # df = pd.DataFrame(prediction.get('nearest_neighbours'))
-    # return df
+    prediction = response.json()
+    print(prediction.get('nearest_neighbours'))
+    # Convert the prediction to a dataframe
+    df = pd.DataFrame(prediction.get('nearest_neighbours'))
+    return df
 
-    df = pd.read_csv(
-        PROJECT_FOLDER+"/"+'data/image_links.csv')
-    return df.head(num_of_results)
+    # df = pd.read_csv(
+    #     PROJECT_FOLDER+"/"+'data/image_links.csv')
+    # return df.head(num_of_results)
 
 
 def display_image_grid(df):
@@ -68,11 +70,11 @@ def main():
         # json_prediction = json.dumps(prediction_df)
         # print(json_prediction)
         # # if lenght of datafarme
-        # if len(prediction_df) > 0:
-        #     st.header('Predictions')
-        #     display_image_grid(prediction_df)
-        # else:
-        #     st.write('No results found')
+        if len(prediction_df) > 0:
+            st.header('Predictions')
+            display_image_grid(prediction_df)
+        else:
+            st.write('No results found')
 
 
 if __name__ == "__main__":
