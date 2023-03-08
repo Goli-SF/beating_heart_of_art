@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, File, UploadFile
 from PIL import Image
 from io import BytesIO
 import pandas as pd
