@@ -16,12 +16,12 @@ PREDICTION_URL = os.getenv('PREDICTION_URL', 'http://127.0.0.1:8000/uploader')
 
 
 def predict(image_data, num_of_results=10):
-
+    num_of_results = 1
     # encode image_data as enctype="multipart/form-data and post ist to the API
     response = requests.post(
         PREDICTION_URL,
-        files={'file': image_data},
-        data={'num_of_results': num_of_results}
+        files={'file': image_data, 'num_of_results': num_of_results},
+        # data={'num_of_results': num_of_results}
     )
 
     # Get the prediction
