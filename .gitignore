@@ -1,4 +1,7 @@
 raw_data/
+golnaz/
+__pycache__
+.pytest_cache
 __pycache__
 projects/vit/data/**
 projects/ml-test/data/**
