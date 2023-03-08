@@ -5,7 +5,7 @@ app = FastAPI()
 @app.get("/recommend")
 def dummy():
     return{
-        'Message' : 'This is supposed to return the N most similar images'
+        'Message' : 'This page is supposed to return the N most similar images'
     }
 
 
