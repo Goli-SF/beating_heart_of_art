@@ -12,6 +12,7 @@ from PIL import Image
 APP_TITLE = 'The beating heart of Art'
 APP_SUB_TITLE = 'Find similar artwork from the Metropolitan Museum of Art'
 PROJECT_FOLDER = os.getcwd()
+PREDICTION_URL = os.getenv('PREDICTION_URL', 'http://localhost:5000/predict')
 
 
 def predict(image_data, num_of_results=5):
@@ -20,7 +21,7 @@ def predict(image_data, num_of_results=5):
 
     # encode image_data as enctype="multipart/form-data and post ist to the API
     # response = requests.post(
-    #     'http://localhost:5000/predict',
+    #     PREDICTION_URL,
     #     files={'file': image_data},
     #     data={'num_of_results': num_of_results}
     # )
