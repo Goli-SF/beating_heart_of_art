@@ -15,5 +15,10 @@ v = ViT(
 
 img = torch.randn(1, 3, 256, 256)
 
+# trai
+
 preds = v(img)  # (1, 1000)
-print(preds)
+
+
+def predict():
+    return True

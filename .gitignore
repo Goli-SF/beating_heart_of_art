@@ -1,3 +1,4 @@
 raw_data/
 projects/vit/data/**
+projects/ml-test/data/**
 .DS_Store
