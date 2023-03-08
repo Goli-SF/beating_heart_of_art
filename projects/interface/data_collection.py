@@ -4,6 +4,7 @@ import pandas as pd
 import os
 from io import BytesIO
 import numpy as np
+from ratelimit import limits, sleep_and_retry
 
 def df_from_csv(local_path):
     """
@@ -23,7 +24,11 @@ def df_from_csv(local_path):
     return image_links_df
 
 
+CALLS = 79
+RATE_LIMIT = 1
 
+@sleep_and_retry
+@limits(calls=CALLS, period=RATE_LIMIT)
 def imagelink_collector(df):
     """
     adds the 'imageURL' column to the input dataframe.
@@ -60,11 +65,14 @@ def image_preprocessor(image):
     return resized_image
 
 
-def image_downloader(local_path):
+@sleep_and_retry
+@limits(calls=CALLS, period=RATE_LIMIT)
+def image_downloader(input_path, output_path):
     """
     takes the path to a csv-file and downloads the images from the URLs provided in its imageURL-column.
+    Then saves the downloaded images to the output path.
     """
-    df= pd.read_csv(local_path)
+    df= pd.read_csv(input_path)
     for index, row in df[['objectID', 'imageURL']].iterrows():
         id= row['objectID']
         url= row['imageURL']
@@ -74,4 +82,4 @@ def image_downloader(local_path):
             image = Image.open(BytesIO(response.content))
             resized_image= image_preprocessor(image)
             file_name= f'{id}.jpg'
-            resized_image.save(file_name)
+            resized_image.save(f"{output_path}/{file_name}")
