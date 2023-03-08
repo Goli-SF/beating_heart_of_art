@@ -45,7 +45,6 @@ def imagelink_collector(df):
 
     return df
 
-
 def imagelink_csv_maker(df):
     """
     takes a dataframe that includes the imageURL-column and saves it as a csv-file on the hard drive.
