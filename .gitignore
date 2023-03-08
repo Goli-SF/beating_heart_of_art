@@ -2,3 +2,11 @@ raw_data/
 golnaz/
 __pycache__
 .pytest_cache
+
+projects/ml-test/data/flower_images/flower_images/
+
+projects/ml-test/data/
+
+projects/vit/data/
+
+.DS_Store
