@@ -17,3 +17,5 @@ projects/ml-test/data/
 projects/vit/data/
 
 .DS_Store
+
+*.pyc
