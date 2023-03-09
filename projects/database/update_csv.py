@@ -29,7 +29,7 @@ def udpate(prefix, output_csv, input_csv, image_name, image_file_type='jpg'):
         return False
 
 
-def rename(output_csv, old_image_column_name, image_url_column_name, image_file_type='jpg'):
+def rename(output_csv, old_image_column_name, image_file_type='jpg'):
     csv = pd.read_csv(output_csv)
     # rename all images. they right now have the name of column 'objectID'. rename them to the unique id
     for index, row in csv.iterrows():
@@ -40,14 +40,15 @@ def rename(output_csv, old_image_column_name, image_url_column_name, image_file_
             # print(f'{row["image_name"]}.jpg already exists')
             pass
         else:
-            # print(f'{row["set_name"]}/{row["objectID"]}.jpg does not exist')
-            print(f'{row[image_url_column_name]}')
+            print(
+                f'{row["set_name"]}/{row["objectID"]}.{image_file_type} does not exist')
+            # print(f'{row[image_url_column_name]}')
             # remove row from csv
             csv.drop(index, inplace=True)
     csv.to_csv(output_csv, index=False)
 
 
-dataset_name = 'metropolitan'
+dataset_name = 'moma'
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--dataset_name', type=str, default=dataset_name,
@@ -57,16 +58,33 @@ parser.add_argument('--dataset_name', type=str, default=dataset_name,
 def main():
     if dataset_name == 'metropolitan':
         prefix = 'MTRP'
-        input_csv = 'metropolitan_in.csv'
+        input_csv = 'image_links.csv'
         image_path = 'metropolitan'
-        output_csv = image_path + '.csv'
+        # output_csv = image_path + '.csv'
+        output_csv = image_path + 'image_links_new.csv'
         old_image_column_name = 'objectID'
-        image_url_column_name = 'imageURL'
+        image_file_type = 'jpg'
         # if direcory dataset_name exists
         if os.path.exists(image_path):
-            if udpate(prefix, output_csv, input_csv, image_path):
+            if udpate(prefix, output_csv, input_csv, image_path, image_file_type=image_file_type):
                 drop_columns(['oid'], output_csv)
-                rename(output_csv, old_image_column_name, image_url_column_name)
+                rename(output_csv, old_image_column_name,
+                       image_file_type=image_file_type)
+
+    if dataset_name == 'moma':
+        prefix = 'MOMA'
+        input_csv = 'moma_df_update.csv'
+        image_path = 'moma'
+        # output_csv = image_path + '.csv'
+        output_csv = 'moma.csv'
+        old_image_column_name = 'objectID'
+        image_file_type = 'jpg'
+        # if direcory dataset_name exists
+        if udpate(prefix, output_csv, input_csv, image_path, image_file_type=image_file_type):
+            drop_columns(['oid'], output_csv)
+        if os.path.exists(image_path):
+            rename(output_csv, old_image_column_name,
+                   image_file_type=image_file_type)
 
 
 if __name__ == '__main__':
