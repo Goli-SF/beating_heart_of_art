@@ -84,6 +84,17 @@ pytz = ">=2020.1"
 test = ["hypothesis (>=5.5.3)", "pytest (>=6.0)", "pytest-xdist (>=1.31)"]
 
 [[package]]
+name = "pysqlite3"
+version = "0.5.0"
+description = "DB-API 2.0 interface for Sqlite 3.x"
+category = "main"
+optional = false
+python-versions = "*"
+files = [
+    {file = "pysqlite3-0.5.0.tar.gz", hash = "sha256:3bbddd291e21c83670034f17a13edd0e0ef6ef1a53764ecdcb322d36d7302287"},
+]
+
+[[package]]
 name = "python-dateutil"
 version = "2.8.2"
 description = "Extensions to the standard Python datetime module"
@@ -125,4 +136,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "~3.10"
-content-hash = "92e522510eb0c09ba4a75adfe01f7f1ab79045e405baa3d23ba8bdcbd3d3251f"
+content-hash = "a2bb961b7620f05df927105af2c8ba67ed16d4ebd085ba50e01f95f9051016b8"
