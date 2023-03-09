@@ -36,3 +36,9 @@ projects/vit/data/
 
 *.pyc
 
+
+.DS_Store
+
+notebooks/.ipynb_checkpoints/
+
+projects/database/metropolitan/
