@@ -1,4 +1,4 @@
-from .database import load_csv_to_sqlite, load_sqlite_to_csv
+from .database import Database
 import argparse
 
 input_csv = 'metropolitan.csv'
@@ -16,7 +16,8 @@ parser.add_argument('--database_name', type=str, default=database_name,
 
 
 def main():
-    load_csv_to_sqlite(input_csv, table_name, database_name)
+    db = Database(database_name)
+    db.load_csv_to_sqlite(input_csv, table_name, database_name)
 
 
 if __name__ == '__main__':
