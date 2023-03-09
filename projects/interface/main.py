@@ -59,5 +59,7 @@ def find_neighbors(X, target,  filenames, n_neighbors=5):
     neigh = NearestNeighbors(n_neighbors=n_neighbors)
     neigh.fit(X)
     kneighbors_index = neigh.kneighbors(target.reshape(1,-1))[1].tolist()[0]
+
     kneighbors = [int(filenames[neighbor].split('.')[0]) for neighbor in kneighbors_index]
+
     return kneighbors

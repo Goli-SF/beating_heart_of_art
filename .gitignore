@@ -2,6 +2,20 @@ raw_data/
 golnaz/
 __pycache__
 .pytest_cache
+
+
+.DS_Store
+
+notebooks/.ipynb_checkpoints/
+
+projects/interface/images_metropolitan/
+
+projects/database/metropolitan/
+
+projects/database/images_metropolitan.zip
+
+*.zip
+
 __pycache__
 projects/vit/data/**
 projects/ml-test/data/**
@@ -21,3 +35,10 @@ projects/vit/data/
 .DS_Store
 
 *.pyc
+
+
+.DS_Store
+
+notebooks/.ipynb_checkpoints/
+
+projects/database/metropolitan/
