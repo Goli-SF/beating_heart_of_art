@@ -20,13 +20,12 @@ model = VGG16()
 model = Model(inputs = model.inputs, outputs = model.layers[-2].output)
 pca = pickle.load(open("<LOCATION_OF_PICKLE_FILE>","rb"))
 X = pickle.load(open("<LOCATION_OF_PICKLE_FILE>","rb"))
+filenames = pickle.load(open("<LOCATION_OF_PICKLE_FILE>","rb"))
 
 def extract_features(image, model):
     '''
     Extract features of an image file using the selected model.
     '''
-    # load the image as a 224x224 array
-    #img = load_img(file, target_size=(224,224))
     # convert from 'PIL.Image.Image' to numpy array
     img = np.array(image)
     # reshape the data for the model reshape(num_of_samples, dim 1, dim 2, channels)
@@ -41,11 +40,13 @@ def extract_features(image, model):
     return target
 
 
-def find_neighbors(X, target, n_neighbors=20):
+def find_neighbors(X, target, n_neighbors=5):
     '''
     Find the nearest neighbors of a target image.
+    Returns a list with objectIDs
     '''
     neigh = NearestNeighbors(n_neighbors=n_neighbors)
     neigh.fit(X)
-    kneighbors = neigh.kneighbors(target.reshape(1,-1))[1].tolist()[0]
+    kneighbors_index = neigh.kneighbors(target.reshape(1,-1))[1].tolist()[0]
+    kneighbors = [filenames[neighbor].split('.')[0] for neighbor in kneighbors_index]
     return kneighbors
