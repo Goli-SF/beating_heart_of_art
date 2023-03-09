@@ -8,3 +8,7 @@ __pycache__
 notebooks/.ipynb_checkpoints/
 
 projects/interface/images_metropolitan/
+
+projects/database/metropolitan/
+
+projects/database/images_metropolitan.zip
