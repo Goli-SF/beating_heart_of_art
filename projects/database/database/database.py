@@ -14,6 +14,19 @@ class Database:
         self.database_name = database_name
         self.images_directory = images_directory
 
+    def count(self, table_name):
+        # create an empty sqlite database
+        conn = sqlite3.connect(self.database_name)
+
+        # load metropolitan.csv
+        df = pd.read_sql_query(
+            f'SELECT COUNT(*) FROM {table_name}', conn)
+
+        # close the connection
+        conn.close()
+
+        return df
+
     def list_all_tables(self):
         # create an empty sqlite database
         conn = sqlite3.connect(self.database_name)
