@@ -2,3 +2,9 @@ raw_data/
 golnaz/
 __pycache__
 .pytest_cache
+
+.DS_Store
+
+notebooks/.ipynb_checkpoints/
+
+projects/database/metropolitan/
