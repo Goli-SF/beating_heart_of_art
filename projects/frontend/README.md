@@ -1,5 +1,21 @@
 # Frontend
 
+## Local development
+
+### Install dependencies / activate poetry virtual environment
+
+´´´bash
+poetry install
+poetry shell
+´´´
+
+## Run the app
+
+´´´bash
+
+streamlit run app/app.py
+´´´
+
 ## Build and run with docker
 
 ### Build the docker image
@@ -38,20 +54,4 @@ docker push gcr.io/your-project-id/frontend
 
 ´´´bash
 gcloud run deploy frontend --image gcr.io/your-project-id/frontend --platform managed --region europe-west1 --allow-unauthenticated
-´´´
-
-## Local development
-
-### Install dependencies / activate poetry virtual environment
-
-´´´bash
-poetry install
-poetry shell
-´´´
-
-### Run the app
-
-´´´bash
-
-poetry run streamlit run app/app.py
 ´´´
