@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "ml-test"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+packages = [{include = "ml_test"}]
+
+[tool.poetry.dependencies]
+python = "~3.10"
+tensorflow-macos = "^2.11.0"
+tensorflow-metal = "^0.7.1"
+scikit-learn = "^1.2.1"
+matplotlib = "^3.7.1"
+pandas = "^1.5.3"
+
+
+[tool.poetry.group.dev.dependencies]
+autopep8 = "^2.0.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
