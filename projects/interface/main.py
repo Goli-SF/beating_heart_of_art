@@ -15,14 +15,15 @@ from random import randint
 import pandas as pd
 import pickle
 
+def load_model():
+    model = VGG16()
+    model = Model(inputs = model.inputs, outputs = model.layers[-2].output)
+    pca = pickle.load(open("./resources/pca.pkl","rb"))
+    X = pickle.load(open("./resources/features.pkl","rb"))
+    filenames = pickle.load(open("./resources/filenames.pkl","rb"))
+    return model, pca, X, filenames
 
-model = VGG16()
-model = Model(inputs = model.inputs, outputs = model.layers[-2].output)
-pca = pickle.load(open("<LOCATION_OF_PICKLE_FILE>","rb"))
-X = pickle.load(open("<LOCATION_OF_PICKLE_FILE>","rb"))
-filenames = pickle.load(open("<LOCATION_OF_PICKLE_FILE>","rb"))
-
-def extract_features(image, model):
+def extract_features(image, model, pca):
     '''
     Extract features of an image file using the selected model.
     '''
@@ -40,7 +41,7 @@ def extract_features(image, model):
     return target
 
 
-def find_neighbors(X, target, n_neighbors=5):
+def find_neighbors(X, target,  filenames, n_neighbors=5):
     '''
     Find the nearest neighbors of a target image.
     Returns a list with objectIDs
