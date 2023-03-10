@@ -9,3 +9,15 @@ This project involves the analysis of artworks from the API of the Metropolitan 
 ```bash
 docker build -t beating_heart_of_art:dev .
 ```
+
+## Run docker container
+
+```bash
+docker run -it --rm -p 8000:8000 beating_heart_of_art:dev
+```
+
+## Bash into docker container
+
+```bash
+docker run -it beating_heart_of_art:dev bash
+```

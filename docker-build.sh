@@ -1,0 +1,1 @@
+docker build -t beating_heart_of_art:dev . 
