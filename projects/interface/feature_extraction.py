@@ -64,11 +64,13 @@ def all_features(image_files, path, model):
     Extracts features of all files in a folder.
     '''
     data = {}
-    for image in image_files:
+    for counter, image in enumerate(image_files):
     # extracts the features and update the dictionary
         feat = extract_features(image, path, model)
         image = image.split('/')[-1]
         data[image] = feat
+        if counter%1000 == 0 :
+            print("\n\n\n Processed {counter} images \n\n\n")
 
     # splits the dictionary into 2 numpy arrays
     filenames = np.array(list(data.keys()))
