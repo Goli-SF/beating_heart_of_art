@@ -26,18 +26,18 @@ def udpate(prefix, df, image_name, image_file_type='jpg'):
     return df
 
 
-def rename(df, old_image_column_name, image_file_type='jpg'):
+def rename(df, old_image_column_name, images_source_path, image_file_type='jpg'):
     # rename all images. they right now have the name of column 'objectID'. rename them to the unique id
     for index, row in df.iterrows():
-        if os.path.exists(f'{row["set_name"]}/{row[old_image_column_name]}.{image_file_type}'):
-            os.rename(f'{row["set_name"]}/{row[old_image_column_name]}.{image_file_type}',
-                      f'{row["set_name"]}/{row["image_name"]}')
+        if os.path.exists(f'{images_source_path}/{row["set_name"]}/{row[old_image_column_name]}.{image_file_type}'):
+            os.rename(f'{images_source_path}/{row["set_name"]}/{row[old_image_column_name]}.{image_file_type}',
+                      f'{images_source_path}/{row["set_name"]}/{row["image_name"]}')
         elif os.path.exists(f'{row["set_name"]}/{row["image_name"]}'):
             # print(f'{row["image_name"]}.jpg already exists')
             pass
         else:
             print(
-                f'{row["set_name"]}/{row["objectID"]}.{image_file_type} does not exist')
+                f'{images_source_path}/{row["set_name"]}/{row[old_image_column_name]}.{image_file_type} does not exist')
             # print(f'{row[image_url_column_name]}')
             # remove row from csv
             df.drop(index, inplace=True)
@@ -74,8 +74,9 @@ def main():
         image_path = 'moma'
         # output_csv = image_path + '.csv'
         output_csv = 'moma.csv'
-        old_image_column_name = 'objectID'
+        old_image_column_name = 'ObjectID'
         image_file_type = 'jpg'
+        images_source_path = '../../img'
         # if direcory dataset_name exists
         update_df = None
         update_df = udpate(prefix, df, image_path,
@@ -83,12 +84,12 @@ def main():
         print(update_df)
         # if new_df:
         #     drop_columns(['oid'], output_csv)
-        # def rename(output_csv, old_image_column_name, image_file_type='jpg'):
-        # if os.path.exists(image_path):
-        #     rename_df = rename(output_csv, old_image_column_name,
-        #                        image_file_type=image_file_type)
-        #     # pickle the dataframe
-        #     rename_df.to_pickle('moma_rename.pkl')
+
+        if os.path.exists(images_source_path):
+            rename_df = rename(df, old_image_column_name, images_source_path,
+                               image_file_type=image_file_type)
+            # pickle the dataframe
+            rename_df.to_pickle('moma_rename.pkl')
 
 
 if __name__ == '__main__':

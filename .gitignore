@@ -50,4 +50,4 @@ projects/database/metropolitan/
 
 projects/api/.env
 
-img/images_moma/
+img/**
