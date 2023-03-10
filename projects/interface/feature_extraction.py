@@ -12,6 +12,13 @@ from random import randint
 import pandas as pd
 import pickle
 
+from google.cloud import storage
+from zipfile import ZipFile
+import io
+
+BUCKET_ID = '30k-images'
+UNZIPPED_IMAGE_PATH = f"{os.getcwd()}/resources/unzipped_images/"
+
 def image_files(path):
     '''
     Creates a list with the names of the images to be processed.
@@ -85,11 +92,53 @@ def pca(feat):
         pickle.dump(pca, file)
 
 
+def batch_features(image_files, path, model, batch_size):
+    '''
+    Extracts features of all files in a folder.
+    '''
+    for i in range(0, len(image_files), batch_size):
+        data = {}
+        batch_files = image_files[i:i+batch_size]
 
+        for image in batch_files:
+            feat = extract_features(image, path, model)
+            image = image.split('/')[-1]
+            data[image] = feat
+
+        filenames = np.array(list(data.keys()))
+        feat = np.array(list(data.values()))
+
+        with open(f"filenames_{i//batch_size}.pkl", "wb") as file:
+            pickle.dump(filenames, file)
+
+        with open(f"features_{i//batch_size}.pkl", "wb") as file:
+            pickle.dump(feat, file)
+
+        print(f'BATCH {i//batch_size+1} processed')
 
 if __name__ == '__main__':
-    path = input("Please provide the folder path: ")
+    mode = input("\n\n\nDo you want to train model from \n1. Images saved locally\n2. Images on the cloud\n")
+    if mode == '1':
+        path = input("Please provide the folder path: ")
+    elif mode == '2':
+        client = storage.Client()
+        bucket = client.get_bucket(BUCKET_ID)
+        blob = bucket.get_blob('images_metropolitan.zip')
+
+        object_bytes = blob.download_as_bytes()
+
+        archive = io.BytesIO()
+        archive.write(object_bytes)
+
+        print(UNZIPPED_IMAGE_PATH)
+
+        with ZipFile(archive) as zip_archive:
+            zip_archive.extractall(UNZIPPED_IMAGE_PATH)
+    else:
+        print("Re enter choice 1 or 2")
+
+
     model = load_model()
-    images = image_files(path)
-    feat = all_features(images, path, model)
+    images = image_files(UNZIPPED_IMAGE_PATH)
+    feat = all_features(images, UNZIPPED_IMAGE_PATH, model)
     pca(feat)

@@ -34,6 +34,7 @@ fastapi
 pytz
 uvicorn
 ratelimit
+streamlit
 # tests
 # httpx
 # pytest-asyncio
