@@ -37,7 +37,7 @@ def predict(image_data, num_of_results=10):
 
 def display_image_grid(df):
     df = df.reset_index(drop=True)
-    print('Reset index', df)
+    # print('Reset index', df)
     st.header('Similar Artwork')
     col1, col2 = st.columns(2)
     for index, row in df.iterrows():
