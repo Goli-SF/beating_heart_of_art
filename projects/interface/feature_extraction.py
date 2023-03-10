@@ -159,7 +159,7 @@ if __name__ == '__main__':
     images = image_files(TRAINING_IMAGE_PATH)
     print("\n\nImage filenames received\n")
     print("\n\nFeature Extraction Initiated\n")
-    feat = batch_features(images, TRAINING_IMAGE_PATH, model)
+    feat = all_features(images, TRAINING_IMAGE_PATH, model)
     print("\n\nFeature Extraction Complete\n")
     print("\n\nPCA yo\n")
     pca(feat)
