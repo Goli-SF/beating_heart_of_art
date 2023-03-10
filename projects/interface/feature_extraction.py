@@ -19,6 +19,7 @@ import io
 BUCKET_NAME = '30k-images'
 
 UNZIPPED_IMAGE_PATH = f"{os.getcwd()}/resources/unzipped_images/"
+TRAINING_IMAGE_PATH = f"{UNZIPPED_IMAGE_PATH}/metropolitan"
 PICKLE_FILE_PATH = f"{os.getcwd()}/resources/"
 
 def image_files(path):
@@ -150,11 +151,19 @@ if __name__ == '__main__':
     else:
         print("Re enter choice 1 or 2")
 
-
+    print(UNZIPPED_IMAGE_PATH)
+    print("\n\nLoading Model\n\n")
     model = load_model()
-    images = image_files(UNZIPPED_IMAGE_PATH)
-    feat = all_features(images, UNZIPPED_IMAGE_PATH, model)
+    print("\n\nModel loaded\n\n")
+    print("\n\nGetting image filenames\n")
+    images = image_files(TRAINING_IMAGE_PATH)
+    print("\n\nImage filenames received\n")
+    print("\n\nFeature Extraction Initiated\n")
+    feat = all_features(images, TRAINING_IMAGE_PATH, model)
+    print("\n\nFeature Extraction Complete\n")
+    print("\n\nPCA yo\n")
     pca(feat)
+    print("\n\nDone\n")
 
     upload_blob(BUCKET_NAME, f"{PICKLE_FILE_PATH}filenames.pkl", "filenames.pkl")
     upload_blob(BUCKET_NAME, f"{PICKLE_FILE_PATH}features.pkl", "features.pkl")
