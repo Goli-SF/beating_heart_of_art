@@ -1,13 +1,16 @@
+
 # Frontend
 
 ## Local development
 
 ### Install dependencies / activate poetry virtual environment
 
+
 ´´´bash
 poetry install
 poetry shell
 ´´´
+
 
 ## Run the app
 

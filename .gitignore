@@ -1,5 +1,4 @@
 raw_data/
-golnaz/
 __pycache__
 .pytest_cache
 
@@ -48,3 +47,4 @@ projects/vit/data/
 notebooks/.ipynb_checkpoints/
 
 projects/database/metropolitan/
+
