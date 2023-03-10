@@ -5,4 +5,4 @@
 # 	# @pip install -e .
 
 run_api:
-	uvicorn projects.api.fastapi:app --reload
+	uvicorn projects.api.api:app --reload
