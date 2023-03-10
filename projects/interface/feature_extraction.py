@@ -16,8 +16,10 @@ from google.cloud import storage
 from zipfile import ZipFile
 import io
 
-BUCKET_ID = '30k-images'
+BUCKET_NAME = '30k-images'
+
 UNZIPPED_IMAGE_PATH = f"{os.getcwd()}/resources/unzipped_images/"
+PICKLE_FILE_PATH = f"{os.getcwd()}/resources/"
 
 def image_files(path):
     '''
@@ -72,7 +74,7 @@ def all_features(image_files, path, model):
     feat = np.array(list(data.values()))
 
     # saves the file names as a pickle file
-    with open("resources/filenames.pkl", "wb") as file:
+    with open(f"{PICKLE_FILE_PATH}filenames.pkl", "wb") as file:
         pickle.dump(filenames, file)
 
     return feat
@@ -86,11 +88,22 @@ def pca(feat):
     pca = PCA(n_components=100, random_state=22)
     pca.fit(feat)
     X = pca.transform(feat)
-    with open("resources/features.pkl", "wb") as file:
+    with open(f"{PICKLE_FILE_PATH}features.pkl", "wb") as file:
         pickle.dump(X, file)
-    with open("resources/pca.pkl", "wb") as file:
+    with open(f"{PICKLE_FILE_PATH}pca.pkl", "wb") as file:
         pickle.dump(pca, file)
 
+def upload_blob(bucket_name, source_file_name, destination_blob_name):
+  """Uploads a file to the bucket."""
+  storage_client = storage.Client()
+  bucket = storage_client.get_bucket(bucket_name)
+  blob = bucket.blob(destination_blob_name)
+
+  blob.upload_from_filename(source_file_name)
+
+  print('File {} uploaded to {}.'.format(
+      source_file_name,
+      destination_blob_name))
 
 def batch_features(image_files, path, model, batch_size):
     '''
@@ -122,7 +135,7 @@ if __name__ == '__main__':
         path = input("Please provide the folder path: ")
     elif mode == '2':
         client = storage.Client()
-        bucket = client.get_bucket(BUCKET_ID)
+        bucket = client.get_bucket(BUCKET_NAME)
         blob = bucket.get_blob('images_metropolitan.zip')
 
         object_bytes = blob.download_as_bytes()
@@ -142,3 +155,7 @@ if __name__ == '__main__':
     images = image_files(UNZIPPED_IMAGE_PATH)
     feat = all_features(images, UNZIPPED_IMAGE_PATH, model)
     pca(feat)
+
+    upload_blob(BUCKET_NAME, f"{PICKLE_FILE_PATH}filenames.pkl", "filenames.pkl")
+    upload_blob(BUCKET_NAME, f"{PICKLE_FILE_PATH}features.pkl", "features.pkl")
+    upload_blob(BUCKET_NAME, f"{PICKLE_FILE_PATH}pca.pkl", "pca.pkl")
