@@ -9,8 +9,8 @@ import io
 from PIL import Image
 
 
-APP_TITLE = 'The beating heart of Art'
-APP_SUB_TITLE = 'Find similar artwork from the Metropolitan Museum of Art'
+APP_TITLE = 'The Beating Heart of Art'
+APP_SUB_TITLE = 'Find similar artworks from the Metropolitan Museum of Art and MOMA'
 PROJECT_FOLDER = os.getcwd()
 PREDICTION_URL = os.getenv('PREDICTION_URL', 'http://localhost:8000/uploader')
 
