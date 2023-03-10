@@ -71,8 +71,10 @@ async def create_upload_file(file: UploadFile = File(...), num_of_results: int =
     cat_dtype = pd.CategoricalDtype(categories=nearest_neighbors, ordered=True)
     # convert the 'ObjectID' column to the categorical data type
     similar_images['objectID'] = similar_images['objectID'].astype(cat_dtype)
+    # similar_images['id'] = similar_images['id'].astype(cat_dtype)
     # sort the DataFrame by the 'objectID' column
     similar_images = similar_images.sort_values('objectID')
+    # similar_images = similar_images.sort_values('id')
     print("After Sorting")
     print(similar_images)
     # # replace NaN with empty string
