@@ -1,22 +1,27 @@
 import requests
-from database.database import Database
+from database.database import DataStore
 
 set_name = 'metropolitan'
 
-db = Database('database.db', images_directory='.')
+db = DataStore(
+    '/Users/guntherschulz/dev/beating_heart_of_art/database/database.db', images_directory='.')
 
-# db.load_csv_to_sqlite('moma.csv', 'moma')
+res = db.get_info_by_object_ids(
+    set_name, [470, 471])
+print(res['image_url'].values)
 
-print(db.list_all_tables())
+# # db.load_csv_to_sqlite('moma.csv', 'moma')
 
-images = db.get_images(set_name)
+# print(db.list_all_tables())
 
-print(images.head())
+# images = db.get_images(set_name)
 
-info = db.get_info_from_id('MTRP-001a2270-0cb3-4c51-8b78-ee6bc58a8674')
-print(info)
+# print(images.head())
 
-# count = db.count('moma')
+# info = db.get_info_from_id('MTRP-001a2270-0cb3-4c51-8b78-ee6bc58a8674')
+# print(info)
+
+# count = db.count(set_name)
 # print(count)
 
 # url = 'https://www.moma.org/media/W1siZiIsIjIyNjUxMiJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDMwMHgzMDBcdTAwM2UiXV0.jpg?sha=481b05786494f6eb'

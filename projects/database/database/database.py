@@ -3,7 +3,7 @@ import pandas as pd
 import os
 
 
-class Database:
+class DataStore:
 
     table_names = ['metropolitan', 'moma']
     prefixes = ['MTRP', 'MOMA']
@@ -62,16 +62,23 @@ class Database:
 
         return df
 
-    def get_info_from_id(self, id):
+    def get_info_by_ids(self, ids=[]):
         # create an empty sqlite database
         conn = sqlite3.connect(self.database_name)
+
+        # convert object_ids to string
+        object_ids = [str(object_id) for object_id in object_ids]
 
         prefix = id[:4]
         table_name = self.table_names[self.prefixes.index(prefix)]
 
-        # load metropolitan.csv
+        # # load metropolitan.csv
+        # df = pd.read_sql_query(
+        #     f"SELECT * FROM {table_name} WHERE id='{id}'", conn)
+
+        # return all rows with object_id is in object_ids
         df = pd.read_sql_query(
-            f"SELECT * FROM {table_name} WHERE id='{id}'", conn)
+            f"SELECT * FROM {table_name} WHERE id IN ({','.join(ids)})", conn)
 
         image_url_name = self.image_url_column_names[self.prefixes.index(
             prefix)]
@@ -85,6 +92,37 @@ class Database:
 
         # only keep columns id, image_url, embed_url
         df = df[['id', 'image_url', 'embed_url']]
+
+        # close the connection
+        conn.close()
+        # print columns
+        # print('columns:', df.columns)
+
+        return df
+
+    def get_info_by_object_ids(self, table_name, object_ids=[]):
+        # create an empty sqlite database
+        conn = sqlite3.connect(self.database_name)
+
+        # convert object_ids to string
+        object_ids = [str(object_id) for object_id in object_ids]
+
+        # return all rows with object_id is in object_ids
+        df = pd.read_sql_query(
+            f"SELECT * FROM {table_name} WHERE objectID IN ({','.join(object_ids)})", conn)
+
+        image_url_name = self.image_url_column_names[self.table_names.index(
+            table_name)]
+        embed_url_name = self.embed_url_column_names[self.table_names.index(
+            table_name)]
+
+        # copy the image url to a column called image_url
+        df['image_url'] = df[image_url_name]
+        # copy the embed url to a column called embed_url
+        df['embed_url'] = df[embed_url_name]
+
+        # # only keep columns id, image_url, embed_url
+        # df = df[['id', 'image_url', 'embed_url']]
 
         # close the connection
         conn.close()
