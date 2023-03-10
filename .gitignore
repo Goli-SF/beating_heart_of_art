@@ -23,6 +23,12 @@ golnaz/
 __pycache__
 .pytest_cache
 
+.DS_Store
+
+notebooks/.ipynb_checkpoints/
+
+projects/database/metropolitan/
+
 *.pyc
 
 projects/ml-test/data/flower_images/flower_images/
@@ -42,3 +48,4 @@ notebooks/.ipynb_checkpoints/
 
 projects/database/metropolitan/
 
+projects/api/.env

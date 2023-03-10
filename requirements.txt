@@ -38,3 +38,6 @@ ratelimit
 # tests
 # httpx
 # pytest-asyncio
+projects/interface
+projects/database
+python-dotenv
