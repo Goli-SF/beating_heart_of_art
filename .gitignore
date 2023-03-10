@@ -53,3 +53,4 @@ projects/api/.env
 img/moma/
 
 img/images_moma/
+img/**
