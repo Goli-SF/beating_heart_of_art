@@ -36,16 +36,28 @@ def predict(image_data, num_of_results=10):
 
 
 def display_image_grid(df):
+    df = df.reset_index(drop=True)
+    print('Reset index', df)
     st.header('Similar Artwork')
+    col1, col2 = st.columns(2)
     for index, row in df.iterrows():
         if row.get('imageURL'):
-            image_link = row['imageURL']
-            # print image_link
-            st.write(image_link)
-            image = requests.get(image_link).content
-            image = Image.open(io.BytesIO(image))
-            st.image(image)
-
+            if index == 0 or index % 2 == 0:
+                with col1:
+                    image_link = row['imageURL']
+                    # print image_link
+                    st.write(image_link)
+                    image = requests.get(image_link).content
+                    image = Image.open(io.BytesIO(image))
+                    st.image(image)
+            else:
+                with col2:
+                    image_link = row['imageURL']
+                    # print image_link
+                    st.write(image_link)
+                    image = requests.get(image_link).content
+                    image = Image.open(io.BytesIO(image))
+                    st.image(image)
 
 def main():
     st.set_page_config(APP_TITLE)
