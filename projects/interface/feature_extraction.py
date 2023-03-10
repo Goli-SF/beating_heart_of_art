@@ -75,7 +75,7 @@ def all_features(image_files, path, model):
     feat = np.array(list(data.values()))
 
     # saves the file names as a pickle file
-    with open(f"{PICKLE_FILE_PATH}filenames.pkl", "wb") as file:
+    with open(f"{PICKLE_FILE_PATH}filenames_cloud_train.pkl", "wb") as file:
         pickle.dump(filenames, file)
 
     return feat
@@ -89,9 +89,9 @@ def pca(feat):
     pca = PCA(n_components=100, random_state=22)
     pca.fit(feat)
     X = pca.transform(feat)
-    with open(f"{PICKLE_FILE_PATH}features.pkl", "wb") as file:
+    with open(f"{PICKLE_FILE_PATH}features_cloud_train.pkl", "wb") as file:
         pickle.dump(X, file)
-    with open(f"{PICKLE_FILE_PATH}pca.pkl", "wb") as file:
+    with open(f"{PICKLE_FILE_PATH}pca_cloud_train.pkl", "wb") as file:
         pickle.dump(pca, file)
 
 def upload_blob(bucket_name, source_file_name, destination_blob_name):
@@ -159,12 +159,12 @@ if __name__ == '__main__':
     images = image_files(TRAINING_IMAGE_PATH)
     print("\n\nImage filenames received\n")
     print("\n\nFeature Extraction Initiated\n")
-    feat = all_features(images, TRAINING_IMAGE_PATH, model)
+    feat = batch_features(images, TRAINING_IMAGE_PATH, model)
     print("\n\nFeature Extraction Complete\n")
     print("\n\nPCA yo\n")
     pca(feat)
     print("\n\nDone\n")
 
-    upload_blob(BUCKET_NAME, f"{PICKLE_FILE_PATH}filenames.pkl", "filenames.pkl")
-    upload_blob(BUCKET_NAME, f"{PICKLE_FILE_PATH}features.pkl", "features.pkl")
-    upload_blob(BUCKET_NAME, f"{PICKLE_FILE_PATH}pca.pkl", "pca.pkl")
+    upload_blob(BUCKET_NAME, f"{PICKLE_FILE_PATH}filenames_cloud_train.pkl", "filenames.pkl")
+    upload_blob(BUCKET_NAME, f"{PICKLE_FILE_PATH}features_cloud_train.pkl", "features.pkl")
+    upload_blob(BUCKET_NAME, f"{PICKLE_FILE_PATH}pca_cloud_train.pkl", "pca.pkl")
