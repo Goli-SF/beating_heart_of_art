@@ -122,7 +122,7 @@ class DataStore:
         df['embed_url'] = df[embed_url_name]
 
         # only keep columns id, image_url, embed_url
-        df = df[['id', 'image_url', 'embed_url']]
+        # df = df[['objectID', 'image_url', 'embed_url']]
 
         # close the connection
         conn.close()

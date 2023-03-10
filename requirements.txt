@@ -1,8 +1,6 @@
 tensorflow-macos==2.11.0; sys_platform == 'darwin' and 'ARM' in platform_version # Mac M-chips
 tensorflow==2.11.0; sys_platform == 'darwin' and 'ARM' not in platform_version # Mac Intel chips
 tensorflow==2.11.0; sys_platform != 'darwin' # Windows & Ubuntu Intel chips
-projects/interface
-projects/database
 # wheel
 # nbresult
 # colorama
@@ -44,3 +42,4 @@ ratelimit
 # httpx
 # pytest-asyncio
 python-dotenv
+python-multipart
