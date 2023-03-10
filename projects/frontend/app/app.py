@@ -11,8 +11,12 @@ from PIL import Image
 
 APP_TITLE = 'The beating heart of Art'
 APP_SUB_TITLE = 'Find similar artwork from the Metropolitan Museum of Art'
-PROJECT_FOLDER = os.getcwd()
-PREDICTION_URL = os.getenv('PREDICTION_URL', 'http://localhost:8000/uploader')
+
+# load .env file only if it exists
+if os.path.exists('.env'):
+    import dotenv
+    dotenv.load_dotenv('.env')
+PREDICTION_URL = os.getenv('PREDICTION_URL')
 
 
 def predict(image_data, num_of_results=10):
@@ -29,10 +33,6 @@ def predict(image_data, num_of_results=10):
     # Convert the prediction to a dataframe
     df = pd.DataFrame(prediction.get('nearest_neighbours'))
     return df
-
-    # df = pd.read_csv(
-    #     PROJECT_FOLDER+"/"+'data/image_links.csv')
-    # return df.head(num_of_results)
 
 
 def display_image_grid(df):
@@ -58,6 +58,7 @@ def display_image_grid(df):
                     image = requests.get(image_link).content
                     image = Image.open(io.BytesIO(image))
                     st.image(image)
+
 
 def main():
     st.set_page_config(APP_TITLE)
