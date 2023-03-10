@@ -38,26 +38,28 @@ def predict(image_data, num_of_results=10):
 def display_image_grid(df):
     df = df.reset_index(drop=True)
     print('Reset index', df)
-    st.header('Similar Artwork')
+    st.header('The most similar artworks are:')
     col1, col2 = st.columns(2)
     for index, row in df.iterrows():
         if row.get('imageURL'):
             if index == 0 or index % 2 == 0:
                 with col1:
-                    image_link = row['imageURL']
                     # print image_link
-                    st.write(image_link)
+                    image_link = row['imageURL']
                     image = requests.get(image_link).content
                     image = Image.open(io.BytesIO(image))
-                    st.image(image)
+                    st.image(image, caption=row['title'], use_column_width=True)
+                    st.write(image_link)
+
             else:
                 with col2:
-                    image_link = row['imageURL']
                     # print image_link
-                    st.write(image_link)
+                    image_link = row['imageURL']
                     image = requests.get(image_link).content
                     image = Image.open(io.BytesIO(image))
-                    st.image(image)
+                    st.image(image, caption=row['title'], use_column_width=True)
+                    st.write(image_link)
+
 
 def main():
     st.set_page_config(APP_TITLE)
