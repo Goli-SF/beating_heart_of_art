@@ -1,4 +1,5 @@
 import requests
+import pandas as pd
 from database.database import DataStore
 
 set_name = 'metropolitan'
@@ -6,13 +7,19 @@ set_name = 'metropolitan'
 db = DataStore(
     '/Users/guntherschulz/dev/beating_heart_of_art/database/database.db', images_directory='.')
 
-res = db.get_info_by_object_ids(
-    set_name, [470, 471])
-print(res['image_url'].values)
+# # load pickle file moma_df_update.pkl
+# df = pd.read_pickle('moma_df_update.pkl')
+
+
+# db.load_df_to_sqlite(df, 'moma')
+
+# res = db.get_info_by_object_ids(
+#     set_name, [470, 471])
+# print(res['image_url'].values)
 
 # # db.load_csv_to_sqlite('moma.csv', 'moma')
 
-# print(db.list_all_tables())
+print(db.list_all_tables())
 
 # images = db.get_images(set_name)
 

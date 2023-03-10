@@ -40,6 +40,19 @@ class DataStore:
 
         return df
 
+    def drop_table(self, table_name):
+        # create an empty sqlite database
+        conn = sqlite3.connect(self.database_name)
+
+        # load metropolitan.csv
+        df = pd.read_sql_query(
+            f'DROP TABLE {table_name}', conn)
+
+        # close the connection
+        conn.close()
+
+        return df
+
     def get_images(self, table_name):
         # create an empty sqlite database
         conn = sqlite3.connect(self.database_name)
@@ -72,10 +85,6 @@ class DataStore:
         prefix = id[:4]
         table_name = self.table_names[self.prefixes.index(prefix)]
 
-        # # load metropolitan.csv
-        # df = pd.read_sql_query(
-        #     f"SELECT * FROM {table_name} WHERE id='{id}'", conn)
-
         # return all rows with object_id is in object_ids
         df = pd.read_sql_query(
             f"SELECT * FROM {table_name} WHERE id IN ({','.join(ids)})", conn)
@@ -95,8 +104,6 @@ class DataStore:
 
         # close the connection
         conn.close()
-        # print columns
-        # print('columns:', df.columns)
 
         return df
 
@@ -121,13 +128,8 @@ class DataStore:
         # copy the embed url to a column called embed_url
         df['embed_url'] = df[embed_url_name]
 
-        # only keep columns id, image_url, embed_url
-        # df = df[['objectID', 'image_url', 'embed_url']]
-
         # close the connection
         conn.close()
-        # print columns
-        # print('columns:', df.columns)
 
         return df
 
@@ -162,6 +164,31 @@ class DataStore:
 
         # print the first 5 rows from the database
         print(pd.read_csv(csv_file_name).head())
+
+        # close the connection
+        conn.close()
+
+    def load_df_to_sqlite(self, df, table_name):
+        # create an empty sqlite database
+        conn = sqlite3.connect(self.database_name)
+
+        # print head
+        print(df.head())
+
+        # # convert all values so they can be saved to sqlite
+        # df = df.applymap(lambda x: str(x) if isinstance(x, list) else x)
+
+        # if instance of list, convert to comma separated string
+        df = df.applymap(lambda x: ','.join(x) if isinstance(x, list) else x)
+
+        # save to sqlite database
+        df.to_sql(table_name, conn, if_exists='replace', index=False)
+
+        # print the first 5 rows from the database
+        print(pd.read_sql_query(f'SELECT * FROM {table_name} LIMIT 5', conn))
+
+        # commit
+        conn.commit()
 
         # close the connection
         conn.close()
