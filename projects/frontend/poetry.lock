@@ -45,6 +45,7 @@ test = ["contextlib2", "coverage[toml] (>=4.5)", "hypothesis (>=4.0)", "mock (>=
 trio = ["trio (>=0.16,<0.22)"]
 
 [[package]]
+
 name = "attrs"
 version = "22.2.0"
 description = "Classes Without Boilerplate"
@@ -453,6 +454,7 @@ files = [
 ]
 
 [[package]]
+
 name = "importlib-metadata"
 version = "6.0.0"
 description = "Read metadata from Python packages"
