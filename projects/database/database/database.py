@@ -57,6 +57,9 @@ class Database:
         df['full_path'] = df.apply(
             lambda row: os.path.join(self.images_directory, row['set_name'], row['image_name']), axis=1)
 
+        # print columns
+        # print('columns:', df.columns)
+
         return df
 
     def get_info_from_id(self, id):
@@ -85,6 +88,8 @@ class Database:
 
         # close the connection
         conn.close()
+        # print columns
+        # print('columns:', df.columns)
 
         return df
 
