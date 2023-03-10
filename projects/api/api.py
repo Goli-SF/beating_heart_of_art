@@ -5,6 +5,18 @@ import pandas as pd
 from interface.main import CModel
 from database.database import DataStore
 import os
+# load dotenv
+
+# load .env file only if it exists
+if os.path.exists('.env'):
+    import dotenv
+    dotenv.load_dotenv('.env')
+
+DATABASE_LOCATION = os.getenv('DATABASE_LOCATION')
+RESOURCE_PATH = os.getenv('RESOURCE_PATH')
+
+print('Database location:', DATABASE_LOCATION)
+print('Resource location:', RESOURCE_PATH)
 
 app = FastAPI()
 

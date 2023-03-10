@@ -14,6 +14,7 @@ pandas = "^1.5.3"
 python-multipart = "^0.0.6"
 database = {path = "../database", develop = true}
 interface = {path = "../interface"}
+python-dotenv = "^1.0.0"
 
 
 [build-system]
