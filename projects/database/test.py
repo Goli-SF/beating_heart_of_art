@@ -5,19 +5,19 @@ set_name = 'metropolitan'
 
 db = Database('database.db', images_directory='.')
 
-db.load_csv_to_sqlite('moma.csv', 'moma')
+# db.load_csv_to_sqlite('moma.csv', 'moma')
 
 print(db.list_all_tables())
 
-# images = db.get_images('metropolitan')
+images = db.get_images(set_name)
 
-# print(images.head())
+print(images.head())
 
-# info = db.get_info_from_id('MTRP-001a2270-0cb3-4c51-8b78-ee6bc58a8674')
-# print(info)
+info = db.get_info_from_id('MTRP-001a2270-0cb3-4c51-8b78-ee6bc58a8674')
+print(info)
 
-count = db.count('moma')
-print(count)
+# count = db.count('moma')
+# print(count)
 
 # url = 'https://www.moma.org/media/W1siZiIsIjIyNjUxMiJdLFsicCIsImNvbnZlcnQiLCItcmVzaXplIDMwMHgzMDBcdTAwM2UiXV0.jpg?sha=481b05786494f6eb'
 
