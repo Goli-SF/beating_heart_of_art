@@ -68,18 +68,13 @@ def main():
     # file_uploader accepting images
     image = st.file_uploader("Upload Image", type=['jpg', 'png', 'jpeg'])
     num_of_results = st.slider('How many results do you want?', 1, 10, 1)
-    # import numpy as np
-    # image = np.random.randint(0, 255, (300, 300, 3), dtype=np.uint8)
-    # prediction_df = predict(image, num_of_results)
 
     if image is not None:
         # display image inline
         st.header('Uploaded Image')
         st.image(image, use_column_width=True)
         prediction_df = predict(image, num_of_results)
-        # json_prediction = json.dumps(prediction_df)
-        # print(json_prediction)
-        # # if lenght of datafarme
+
         if len(prediction_df) > 0:
             st.header('Predictions')
             display_image_grid(prediction_df)
