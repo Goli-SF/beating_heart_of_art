@@ -37,58 +37,48 @@ def predict(image_data, num_of_results=10):
 
 def display_image_grid(df):
     df = df.reset_index(drop=True)
-    #print('Reset index', df)
+    # print('Reset index', df)
     st.header('The most similar artworks are:')
-    col1, col2 = st.columns(2)
-    for index, row in df.iterrows():
-        #in the following if-statement, imageURL should be replaces with URL.
-        if row.get('imageURL'):
-            if index == 0 or index % 2 == 0:
-                with col1:
-                    # print image_link; should later be replaced with URL
-                    image_link = row['imageURL']
-                    image = requests.get(image_link).content
-                    image = Image.open(io.BytesIO(image))
-                    st.image(image, caption=f"{row['title']} by {row['artistDisplayName']}", use_column_width=True)
+    # col1, col2 = st.columns(2)
 
-                    st.markdown(
-                    f"""
-                    <style>
-                    div.stImage > img {{
-                        object-fit: contain !important;
-                        object-position: bottom !important;
-                        max-height: 200px !important;
-                    }}
-                    </style>
-                    """,
-                    unsafe_allow_html=True
-                    )
+    # function that yields a list of two rows at a dataframe at a time
+    def chunks(df, n):
+        for i in range(0, len(df), n):
+            yield df[i:i + n]
 
-                    st.write(image_link)
+    for chunk in chunks(df, 2):
+        # in the following if-statement, imageURL should be replaces with URL.
+        with st.container():
+            col1, col2 = st.columns(2)
+            # if index == 0 or index % 2 == 0:
+            with col1:
+                row = chunk.iloc[0]
+                image_link = row['imageURL']
+                image = requests.get(image_link).content
+                image = Image.open(io.BytesIO(image))
+                st.image(
+                    image, caption=f"{row['title']} by {row['artistDisplayName']}", use_column_width=True)
+            # else:
+            with col2:
+                # if second does not exists, skip teh rest
+                if len(chunk) == 1:
+                    continue
 
-
-            else:
-                with col2:
-                    # print image_link; should later be replaced with URL
-                    image_link = row['imageURL']
-                    image = requests.get(image_link).content
-                    image = Image.open(io.BytesIO(image))
-                    st.image(image, caption=f"{row['title']} by {row['artistDisplayName']}", use_column_width=True)
-
-                    st.markdown(
-                    f"""
-                    <style>
-                    div.stImage > img {{
-                        object-fit: contain !important;
-                        object-position: bottom !important;
-                        max-height: 200px !important;
-                    }}
-                    </style>
-                    """,
-                    unsafe_allow_html=True
-                    )
-
-                    st.write(image_link)
+                row = chunk.iloc[1]
+                image_link = row['imageURL']
+                image = requests.get(image_link).content
+                image = Image.open(io.BytesIO(image))
+                st.image(
+                    image, caption=f"{row['title']} by {row['artistDisplayName']}", use_column_width=True)
+        st.write(
+            """<style>
+            [data-testid="stHorizontalBlock"] {
+                align-items: baseline;
+            }
+            </style>
+            """,
+            unsafe_allow_html=True
+        )
 
 
 def main():
