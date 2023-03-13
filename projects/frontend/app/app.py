@@ -123,7 +123,14 @@ def display_image_grid(df):
 
 def main():
     st.set_page_config(APP_TITLE)
-    st.title(APP_TITLE)
+
+    col1, col2 = st.columns([3, 1])
+    with col1:
+        st.title(APP_TITLE)
+
+    with col2:
+        st.image('../../interface/resources/beating-heart-reduced2-1.gif')
+
     st.caption(APP_SUB_TITLE)
 
     # file_uploader accepting images
