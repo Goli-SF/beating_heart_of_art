@@ -433,7 +433,7 @@ category = "main"
 optional = false
 python-versions = "~3.10"
 files = []
-develop = true
+develop = false
 
 [package.dependencies]
 autopep8 = "^2.0.2"
@@ -2553,4 +2553,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "~3.10"
-content-hash = "86b464e189f4e33f6a0db233b437b9542469f365457941157ee4040b70ff107a"
+content-hash = "85dce054cae4b3c396f924cb082771d6e032ad22c64bcd3cb8fe7470010250c0"

@@ -45,7 +45,7 @@ def display_image_grid(df):
     def chunks(df, n):
         for i in range(0, len(df), n):
             yield df[i:i + n]
-
+    print('--------df', df)
     for chunk in chunks(df, 2):
         with st.container():
             col1, col2 = st.columns(2)
@@ -53,26 +53,24 @@ def display_image_grid(df):
             with col1:
                 row = chunk.iloc[0]
                 image_link = row['embed_url']
-                image = requests.get(image_link).content
-                image = Image.open(io.BytesIO(image))
-                st.image(
-                    image, caption=f"{row['title']} by {row['artist']}", use_column_width=True)
-            # else:
+                # add link to open in new window
+                st.markdown(
+                    f"""<a href="{row['image_url']}" target="_blank" style="float: right;">Open at {row['source_name']}</a>""", unsafe_allow_html=True)
+
+                st.image(image_link, use_column_width=True,
+                         caption=f"{row['title']} by {row['artist']}")
             with col2:
                 # if second does not exists, skip teh rest
                 if len(chunk) == 1:
                     continue
-
                 row = chunk.iloc[1]
                 image_link = row['embed_url']
-                image = requests.get(image_link).content
-                image = Image.open(io.BytesIO(image))
-                st.image(
-                    image, caption=f"{row['title']} by {row['artist']}", use_column_width=True)
                 # add link to open in new window
                 st.markdown(
-                    f"""<a href="{row['image_url']}" target="_blank">Open at {row['source_name']}</a>""", unsafe_allow_html=True)
+                    f"""<a href="{row['image_url']}" target="_blank" style="float: right;">Open at {row['source_name']}</a>""", unsafe_allow_html=True)
 
+                st.image(image_link, use_column_width=True,
+                         caption=f"{row['title']} by {row['artist']}")
         st.write(
             """<style>
             [data-testid="stHorizontalBlock"] {
