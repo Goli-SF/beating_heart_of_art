@@ -45,7 +45,7 @@ def display_image_grid(df):
     def chunks(df, n):
         for i in range(0, len(df), n):
             yield df[i:i + n]
-    print('--------df', df)
+
     for chunk in chunks(df, 2):
         with st.container():
             col1, col2 = st.columns(2)
