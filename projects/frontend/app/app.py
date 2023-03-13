@@ -34,6 +34,7 @@ def predict(image_data, num_of_results=10):
     #     PROJECT_FOLDER+"/"+'data/image_links.csv')
     # return df.head(num_of_results)
 
+
 def url_image_embedder (url):
     """
     this function decides if the link is from metropolitan or moma. Regarding that, it uses the proper method to get the image and
@@ -76,57 +77,50 @@ def display_image_grid(df):
     df = df.reset_index(drop=True)
     #print('Reset index', df)
     st.header('The most similar artworks are:')
-    col1, col2 = st.columns(2)
-    for index, row in df.iterrows():
-        #in the following if-statement, imageURL should be replaces with URL.
-        if row.get('URL'):
-            if index == 0 or index % 2 == 0:
-                with col1:
-                    # print image_link; should later be replaced with URL
-                    image_link = row['imageURL']
-                    image=url_image_embedder(image_link)
-                    # image = requests.get(image_link).content
-                    # image = Image.open(io.BytesIO(image))
-                    st.image(image, caption=f"{row['title']} by {row['artist']}", use_column_width=True)
 
-                    st.markdown(
-                    f"""
-                    <style>
-                    div.stImage > img {{
-                        object-fit: contain !important;
-                        object-position: bottom !important;
-                        max-height: 200px !important;
-                    }}
-                    </style>
-                    """,
-                    unsafe_allow_html=True
-                    )
-                    st.write(image_link)
+    def chunks(df, n):
+        for i in range(0, len(df), n):
+            yield df[i:i + n]
 
+    for chunk in chunks(df, 2):
+        # in the following if-statement, imageURL should be replaces with URL.
+        with st.container():
+            col1, col2 = st.columns(2)
+            # if index == 0 or index % 2 == 0:
+            with col1:
+                row = chunk.iloc[0]
+                image_link = row['URL']
+                image=url_image_embedder(image_link)
 
-            else:
-                with col2:
-                    # print image_link; should later be replaced with URL
-                    image_link = row['URL']
-                    image=url_image_embedder(image_link)
-                    # image = requests.get(image_link).content
-                    # image = Image.open(io.BytesIO(image))
-                    st.image(image, caption=f"{row['title']} by {row['artist']}", use_column_width=True)
+                text=f"{row['title']} by {row['artist']}"
+                caption="[![text](URL)]"
 
-                    st.markdown(
-                    f"""
-                    <style>
-                    div.stImage > img {{
-                        object-fit: contain !important;
-                        object-position: bottom !important;
-                        max-height: 200px !important;
-                    }}
-                    </style>
-                    """,
-                    unsafe_allow_html=True
-                    )
+                st.image(image, caption, use_column_width=True)
 
-                    st.write(image_link)
+            # else:
+            with col2:
+                # if second does not exists, skip teh rest
+                if len(chunk) == 1:
+                    continue
+
+                row = chunk.iloc[1]
+                image_link = row['URL']
+                image=url_image_embedder(image_link)
+
+                text=f"{row['title']} by {row['artist']}"
+                caption="[![text](URL)]"
+
+                st.image(image, caption, use_column_width=True)
+
+        st.write(
+            """<style>
+            [data-testid="stHorizontalBlock"] {
+                align-items: baseline;
+            }
+            </style>
+            """,
+            unsafe_allow_html=True
+            )
 
 
 def main():
@@ -136,7 +130,7 @@ def main():
 
     # file_uploader accepting images
     image = st.file_uploader("Upload Image", type=['jpg', 'png', 'jpeg'])
-    num_of_results = st.slider('How many results do you want?', 1, 10, 1)
+    num_of_results = st.slider('How many results do you want?', 1, 10, 3)
     # import numpy as np
     # image = np.random.randint(0, 255, (300, 300, 3), dtype=np.uint8)
     # prediction_df = predict(image, num_of_results)
