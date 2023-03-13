@@ -11,20 +11,24 @@ from PIL import Image
 
 APP_TITLE = 'The Beating Heart of Art'
 APP_SUB_TITLE = 'Discover similar artworks from the Metropolitan Museum of Art and MOMA'
-PROJECT_FOLDER = os.getcwd()
-PREDICTION_URL = os.getenv('PREDICTION_URL', 'http://localhost:8000/uploader')
+
+PREDICTION_URL = os.getenv('PREDICTION_URL')
+print('---Prediction URL:', PREDICTION_URL)
 
 
 def predict(image_data, num_of_results=10):
     # encode image_data as enctype="multipart/form-data and post it to the API
-    response = requests.post(
-        PREDICTION_URL,
-        files={'file': image_data},
-        params={'num_of_results': num_of_results}
-    )
-
-    # Get the prediction
-    prediction = response.json()
+    try:
+        response = requests.post(
+            PREDICTION_URL,
+            files={'file': image_data},
+            params={'num_of_results': num_of_results}
+        )
+        # Get the prediction
+        prediction = response.json()
+    except Exception as e:
+        print('Error:', e)
+        return json.dumps({'error': str(e)})
 
     # Convert the prediction to a dataframe
     df = pd.DataFrame(prediction.get('nearest_neighbours'))
