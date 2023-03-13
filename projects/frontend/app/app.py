@@ -34,22 +34,60 @@ def predict(image_data, num_of_results=10):
     #     PROJECT_FOLDER+"/"+'data/image_links.csv')
     # return df.head(num_of_results)
 
+def url_image_embedder (url):
+    """
+    this function decides if the link is from metropolitan or moma. Regarding that, it uses the proper method to get the image and
+    embed it in the website.
+    """
+    if url.startswith('http://www.moma.org'):
+        response = requests.get(
+            url,
+            headers={
+                'authority': 'www.moma.org',
+                'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7',
+                'accept-language': 'en-GB,en;q=0.9',
+                'cache-control': 'no-cache',
+                'cookie': '_gorilla_csrf=MTY3ODM2NDY3NnxJa2xQYkV0b1NrSnJjaXREVnpWMGQwVTVMemx2TjFKdFNYWk9SREF4ZDFSc0syOXNhWFV5V1hONUszTTlJZ289fDzirBgF_op8ZBg9OrQRosZs96_OoyzzTRK4N2Z1Nm9U; viewedCookieBanner=true; sessionHighlightColor=0; global=MTY3ODM2NTA5NHxOd3dBTkVneVVWRkJXRmhZVGsxRE4wbGFWMUpPVUZCWFNUTTBWa3hCUWxkTlFVUmFVVnBJU1V4RFMwaENXRkkxV2swME5Vb3pXbEU9fMTTVMx8jUCEMc0rOJAX_SI4D3aqPgtr-geehbeVT9Pr',
+                'dnt': '1',
+                'pragma': 'no-cache',
+                'sec-ch-ua': '"Chromium";v="110", "Not A(Brand";v="24", "Google Chrome";v="110"',
+                'sec-ch-ua-mobile': '?0',
+                'sec-ch-ua-platform': '"macOS"',
+                'sec-fetch-dest': 'document',
+                'sec-fetch-mode': 'navigate',
+                'sec-fetch-site': 'none',
+                'sec-fetch-user': '?1',
+                'upgrade-insecure-requests': '1',
+                'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36'
+            }
+            )
+        image = Image.open(io.BytesIO(response.content))
+    else:
+        image = requests.get(url).content
+        image = Image.open(io.BytesIO(image))
+
+    return image
+
 
 def display_image_grid(df):
+    """
+    this function is based on the dataframe and not on the database.
+    """
     df = df.reset_index(drop=True)
     #print('Reset index', df)
     st.header('The most similar artworks are:')
     col1, col2 = st.columns(2)
     for index, row in df.iterrows():
         #in the following if-statement, imageURL should be replaces with URL.
-        if row.get('imageURL'):
+        if row.get('URL'):
             if index == 0 or index % 2 == 0:
                 with col1:
                     # print image_link; should later be replaced with URL
                     image_link = row['imageURL']
-                    image = requests.get(image_link).content
-                    image = Image.open(io.BytesIO(image))
-                    st.image(image, caption=f"{row['title']} by {row['artistDisplayName']}", use_column_width=True)
+                    image=url_image_embedder(image_link)
+                    # image = requests.get(image_link).content
+                    # image = Image.open(io.BytesIO(image))
+                    st.image(image, caption=f"{row['title']} by {row['artist']}", use_column_width=True)
 
                     st.markdown(
                     f"""
@@ -63,17 +101,17 @@ def display_image_grid(df):
                     """,
                     unsafe_allow_html=True
                     )
-
                     st.write(image_link)
 
 
             else:
                 with col2:
                     # print image_link; should later be replaced with URL
-                    image_link = row['imageURL']
-                    image = requests.get(image_link).content
-                    image = Image.open(io.BytesIO(image))
-                    st.image(image, caption=f"{row['title']} by {row['artistDisplayName']}", use_column_width=True)
+                    image_link = row['URL']
+                    image=url_image_embedder(image_link)
+                    # image = requests.get(image_link).content
+                    # image = Image.open(io.BytesIO(image))
+                    st.image(image, caption=f"{row['title']} by {row['artist']}", use_column_width=True)
 
                     st.markdown(
                     f"""
