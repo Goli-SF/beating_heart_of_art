@@ -90,11 +90,16 @@ def display_image_grid(df):
             with col1:
                 row = chunk.iloc[0]
                 image_link = row['URL']
+                museum_link=row['source_URL']
+                museum_name=row['source']
+                date=row['date']
+                medium=row['medium']
+
                 image=url_image_embedder(image_link)
 
                 text=f"{row['title']} by {row['artist']}"
                 st.image(image, use_column_width=True)
-                st.caption(f"[{text}]({image_link})")
+                #st.caption(f"[{text}]({museum_link}")
 
             # else:
             with col2:
@@ -104,11 +109,16 @@ def display_image_grid(df):
 
                 row = chunk.iloc[1]
                 image_link = row['URL']
+                museum_link=row['source_URL']
+                museum_name=row['source']
+                date=row['date']
+                medium=row['medium']
+
                 image=url_image_embedder(image_link)
 
                 text=f"{row['title']} by {row['artist']}"
                 st.image(image, use_column_width=True)
-                st.caption(f"[{text}]({image_link})")
+                #st.caption(f"[{text}]({museum_link})\n{medium}, {date}\n from the collection of {museum_name}")
 
         st.write(
             """<style>
