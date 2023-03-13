@@ -10,13 +10,13 @@ from PIL import Image
 
 
 APP_TITLE = 'The Beating Heart of Art'
-APP_SUB_TITLE = 'Find similar artworks from the Metropolitan Museum of Art and MOMA'
+APP_SUB_TITLE = 'Discover similar artworks from the Metropolitan Museum of Art and MOMA'
 PROJECT_FOLDER = os.getcwd()
 PREDICTION_URL = os.getenv('PREDICTION_URL', 'http://localhost:8000/uploader')
 
 
 def predict(image_data, num_of_results=10):
-    # encode image_data as enctype="multipart/form-data and post ist to the API
+    # encode image_data as enctype="multipart/form-data and post it to the API
     response = requests.post(
         PREDICTION_URL,
         files={'file': image_data},
@@ -37,27 +37,57 @@ def predict(image_data, num_of_results=10):
 
 def display_image_grid(df):
     df = df.reset_index(drop=True)
-    print('Reset index', df)
+    #print('Reset index', df)
     st.header('The most similar artworks are:')
     col1, col2 = st.columns(2)
     for index, row in df.iterrows():
+        #in the following if-statement, imageURL should be replaces with URL.
         if row.get('imageURL'):
             if index == 0 or index % 2 == 0:
                 with col1:
-                    # print image_link
+                    # print image_link; should later be replaced with URL
                     image_link = row['imageURL']
                     image = requests.get(image_link).content
                     image = Image.open(io.BytesIO(image))
-                    st.image(image, caption=row['title'], use_column_width=True)
+                    st.image(image, caption=f"{row['title']} by {row['artistDisplayName']}", use_column_width=True)
+
+                    st.markdown(
+                    f"""
+                    <style>
+                    div.stImage > img {{
+                        object-fit: contain !important;
+                        object-position: bottom !important;
+                        max-height: 200px !important;
+                    }}
+                    </style>
+                    """,
+                    unsafe_allow_html=True
+                    )
+
                     st.write(image_link)
+
 
             else:
                 with col2:
-                    # print image_link
+                    # print image_link; should later be replaced with URL
                     image_link = row['imageURL']
                     image = requests.get(image_link).content
                     image = Image.open(io.BytesIO(image))
-                    st.image(image, caption=row['title'], use_column_width=True)
+                    st.image(image, caption=f"{row['title']} by {row['artistDisplayName']}", use_column_width=True)
+
+                    st.markdown(
+                    f"""
+                    <style>
+                    div.stImage > img {{
+                        object-fit: contain !important;
+                        object-position: bottom !important;
+                        max-height: 200px !important;
+                    }}
+                    </style>
+                    """,
+                    unsafe_allow_html=True
+                    )
+
                     st.write(image_link)
 
 
