@@ -93,9 +93,8 @@ def display_image_grid(df):
                 image=url_image_embedder(image_link)
 
                 text=f"{row['title']} by {row['artist']}"
-                caption="[![text](URL)]"
-
-                st.image(image, caption, use_column_width=True)
+                st.image(image, use_column_width=True)
+                st.caption(f"[{text}]({image_link})")
 
             # else:
             with col2:
@@ -108,9 +107,8 @@ def display_image_grid(df):
                 image=url_image_embedder(image_link)
 
                 text=f"{row['title']} by {row['artist']}"
-                caption="[![text](URL)]"
-
-                st.image(image, caption, use_column_width=True)
+                st.image(image, use_column_width=True)
+                st.caption(f"[{text}]({image_link})")
 
         st.write(
             """<style>
