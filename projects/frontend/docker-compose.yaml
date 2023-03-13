@@ -2,7 +2,7 @@ services:
   frontend:
     image: frontend
     ports:
-      - "8501:8501"
+      - "80:8501" # 
     # environment:
     #   - PREDICTION_URL=http://backend:8000/uploader
     env_file:
