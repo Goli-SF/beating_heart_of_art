@@ -88,15 +88,29 @@ def display_image_grid(df):
 
 def main():
     st.set_page_config(APP_TITLE)
-    st.title(APP_TITLE)
+
+    col1, col2 = st.columns([3, 1])
+    with col1:
+        st.title(APP_TITLE)
+    # print current working directory
+    print('---Current working directory:', os.getcwd())
+
+    with col2:
+        st.image('./static/beating-heart-reduced2-1.gif')
+
     st.caption(APP_SUB_TITLE)
 
+    col3, col4 = st.columns(2)
     # file_uploader accepting images
-    image = st.file_uploader("Upload Image", type=['jpg', 'png', 'jpeg'])
-    num_of_results = st.slider('How many results do you want?', 1, 10, 1)
-    # import numpy as np
-    # image = np.random.randint(0, 255, (300, 300, 3), dtype=np.uint8)
-    # prediction_df = predict(image, num_of_results)
+    with col3:
+        image = st.file_uploader("Upload Image", type=['jpg', 'png', 'jpeg'])
+
+    with col4:
+        img_file_buffer = st.camera_input("Take a picture")
+
+    col5, col6 = st.columns(2)
+    with col5:
+        num_of_results = st.slider('How many results do you want?', 1, 10, 3)
 
     if image is not None:
         # display image inline
@@ -108,6 +122,19 @@ def main():
         # # if lenght of datafarme
         if len(prediction_df) > 0:
             st.header('Predictions')
+            display_image_grid(prediction_df)
+        else:
+            st.write('No results found')
+
+    if img_file_buffer is not None:
+        # display image inline
+        st.header('Uploaded Image')
+        st.image(img_file_buffer, use_column_width=True)
+        prediction_df = predict(img_file_buffer, num_of_results)
+        # json_prediction = json.dumps(prediction_df)
+        # print(json_prediction)
+        # # if lenght of datafarme
+        if len(prediction_df) > 0:
             display_image_grid(prediction_df)
         else:
             st.write('No results found')
