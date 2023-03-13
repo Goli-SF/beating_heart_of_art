@@ -133,9 +133,17 @@ def main():
 
     st.caption(APP_SUB_TITLE)
 
+    col3, col4 = st.columns(2)
     # file_uploader accepting images
-    image = st.file_uploader("Upload Image", type=['jpg', 'png', 'jpeg'])
-    num_of_results = st.slider('How many results do you want?', 1, 10, 3)
+    with col3:
+        image = st.file_uploader("Upload Image", type=['jpg', 'png', 'jpeg'])
+
+    with col4:
+        img_file_buffer = st.camera_input("Take a picture")
+
+    col5, col6 = st.columns(2)
+    with col5:
+        num_of_results = st.slider('How many results do you want?', 1, 10, 3)
     # import numpy as np
     # image = np.random.randint(0, 255, (300, 300, 3), dtype=np.uint8)
     # prediction_df = predict(image, num_of_results)
@@ -149,7 +157,20 @@ def main():
         # print(json_prediction)
         # # if lenght of datafarme
         if len(prediction_df) > 0:
-            st.header('Predictions')
+            display_image_grid(prediction_df)
+        else:
+            st.write('No results found')
+
+
+    if img_file_buffer is not None:
+        # display image inline
+        st.header('Uploaded Image')
+        st.image(img_file_buffer, use_column_width=True)
+        prediction_df = predict(img_file_buffer, num_of_results)
+        # json_prediction = json.dumps(prediction_df)
+        # print(json_prediction)
+        # # if lenght of datafarme
+        if len(prediction_df) > 0:
             display_image_grid(prediction_df)
         else:
             st.write('No results found')
