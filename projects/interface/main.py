@@ -22,12 +22,13 @@ def load_model():
     print("I AM NOW IN THE MAIN.PY MODULE")
     model = VGG16()
     model = Model(inputs = model.inputs, outputs = model.layers[-2].output)
-    pca = pickle.load(open(f"{PROJECT_PATH}{RESOURCE_PATH}pca.pkl","rb"))
-    X = pickle.load(open(f"{PROJECT_PATH}{RESOURCE_PATH}features.pkl","rb"))
-    filenames = pickle.load(open(f"{PROJECT_PATH}{RESOURCE_PATH}filenames.pkl","rb"))
+    pca = pickle.load(open(f"{PROJECT_PATH}{RESOURCE_PATH}all_pca.pkl","rb"))
+    X = pickle.load(open(f"{PROJECT_PATH}{RESOURCE_PATH}all_features.pkl","rb"))
+    filenames = pickle.load(open(f"{PROJECT_PATH}{RESOURCE_PATH}all_filenames.pkl","rb"))
+    image_dataframe = pickle.load(open(f"{PROJECT_PATH}{RESOURCE_PATH}ultimate_database_df.pkl","rb"))
 
     print("model loaded")
-    return model, pca, X, filenames
+    return model, pca, X, filenames, image_dataframe
 
 def extract_features(image, model, pca):
     '''
@@ -59,7 +60,6 @@ def find_neighbors(X, target,  filenames, n_neighbors=5):
     neigh = NearestNeighbors(n_neighbors=n_neighbors)
     neigh.fit(X)
     kneighbors_index = neigh.kneighbors(target.reshape(1,-1))[1].tolist()[0]
-
-    kneighbors = [int(filenames[neighbor].split('.')[0]) for neighbor in kneighbors_index]
+    kneighbors = [filenames[neighbor].split('.')[0] for neighbor in kneighbors_index]
 
     return kneighbors
