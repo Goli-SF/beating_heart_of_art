@@ -1,6 +1,6 @@
 
 # FROM --platform=linux/amd64  python:3.10-buster
-FROM python:3.10-buster
+FROM python:3.11-buster
 
 ARG UVICORN_PORT=local
 ENV UVICORN_PORT=${UVICORN_PORT}

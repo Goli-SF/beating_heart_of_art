@@ -76,7 +76,7 @@ class CModel():
         kneighbors_index = neigh.kneighbors(
             target.reshape(1, -1))[1].tolist()[0]
 
-        kneighbors = [int(filenames[neighbor].split('.')[0])
+        kneighbors = [filenames[neighbor].split('.')[0]
                       for neighbor in kneighbors_index]
 
         return kneighbors

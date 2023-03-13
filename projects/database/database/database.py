@@ -6,10 +6,12 @@ import os
 class DataStore:
 
     table_names = ['metropolitan', 'moma']
-    full_names = ['Metropolitan Museum of Art', 'Museum of Modern Art']
+    source_names = ['Metropolitan Museum of Art', 'Museum of Modern Art']
     prefixes = ['MTRP', 'MOMA']
-    image_url_column_names = ['imageURL', 'URL']
-    embed_url_column_names = ['imageURL', 'ThumbnailURL']
+    image_url_names = ['imageURL', 'URL']
+    embed_url_names = ['imageURL', 'ThumbnailURL']
+    title_names = ['title', 'Title']
+    artist_names = ['artistDisplayName', 'Artist']
 
     def __init__(self, database_name):
         self.database_name = database_name
@@ -114,12 +116,15 @@ class DataStore:
             df = pd.read_sql_query(
                 f"SELECT * FROM {table_name} WHERE id IN ('{token}')", conn)
 
-            image_url_name = self.image_url_column_names[self.prefixes.index(
+            image_url_name = self.image_url_names[self.prefixes.index(
                 prefix)]
-            embed_url_name = self.embed_url_column_names[self.prefixes.index(
+            embed_url_name = self.embed_url_names[self.prefixes.index(
                 prefix)]
-
-            full_name = self.full_names[self.prefixes.index(prefix)]
+            title_name = self.title_names[self.prefixes.index(
+                prefix)]
+            artist_name = self.artist_names[self.prefixes.index(
+                prefix)]
+            source_name = self.source_names[self.prefixes.index(prefix)]
 
             # copy the image url to a column called image_url
             df['image_url'] = df[image_url_name]
@@ -127,10 +132,17 @@ class DataStore:
             df['embed_url'] = df[embed_url_name]
 
             # copy the full name to a column called full_name
-            df['source_name'] = full_name
+            df['source_name'] = source_name
+
+            # copy the title to a column called title
+            df['title'] = df[title_name]
+
+            # copy the artist to a column called artist
+            df['artist'] = df[artist_name]
 
             # only keep columns id, image_url, embed_url
-            df = df[['id', 'image_url', 'embed_url', "source_name"]]
+            df = df[['id', 'image_url', 'embed_url',
+                     "source_name", "title", "artist"]]
 
             # append to output_df
             output_df = output_df.append(df)
@@ -151,9 +163,9 @@ class DataStore:
         df = pd.read_sql_query(
             f"SELECT * FROM {table_name} WHERE objectID IN ({','.join(object_ids)})", conn)
 
-        image_url_name = self.image_url_column_names[self.table_names.index(
+        image_url_name = self.image_url_names[self.table_names.index(
             table_name)]
-        embed_url_name = self.embed_url_column_names[self.table_names.index(
+        embed_url_name = self.embed_url_names[self.table_names.index(
             table_name)]
 
         # copy the image url to a column called image_url
