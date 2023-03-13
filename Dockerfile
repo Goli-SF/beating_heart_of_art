@@ -1,4 +1,4 @@
-FROM python:3.10.6-buster
+FROM python:3.10.10-slim-buster
 
 COPY projects /projects
 COPY requirements.txt /requirements.txt
