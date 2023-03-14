@@ -10,7 +10,7 @@ from PIL import Image
 APP_TITLE = 'The Beating Heart of Art'
 APP_SUB_TITLE = 'Discover similar artworks from the Metropolitan Museum of Art and MOMA'
 PROJECT_FOLDER = os.getcwd()
-PREDICTION_URL = os.getenv('PREDICTION_URL', 'http://localhost:8000/uploader')
+PREDICTION_URL = os.getenv('PREDICTION_URL', 'https://beating-heart-of-art-dwjnapaw3q-nw.a.run.app/uploader')
 
 
 def predict(image_data, num_of_results=10):
