@@ -1,8 +1,6 @@
 import os
 import streamlit as st
 import pandas as pd
-# import folium
-# from streamlit_folium import st_folium
 import requests
 import json
 import io
@@ -82,38 +80,95 @@ def display_image_grid(df):
         for i in range(0, len(df), n):
             yield df[i:i + n]
 
-    for chunk in chunks(df, 2):
+    for chunk in chunks(df, 4):
         # in the following if-statement, imageURL should be replaces with URL.
         with st.container():
-            col1, col2 = st.columns(2)
+            col1, col2, col3, col4 = st.columns(4)
             # if index == 0 or index % 2 == 0:
             with col1:
                 row = chunk.iloc[0]
                 image_link = row['URL']
+                museum_link=row['source_URL']
+                museum_name=row['source']
+                date=row['date']
+                medium=row['medium']
+
                 image=url_image_embedder(image_link)
 
                 text=f"{row['title']} by {row['artist']}"
                 st.image(image, use_column_width=True)
-                st.caption(f"[{text}]({image_link})")
+                st.caption(f"[{text}]({museum_link})")
+                st.caption(f"{medium}, {date}")
+                st.caption(f"from the collection of {museum_name}")
 
             # else:
             with col2:
-                # if second does not exists, skip teh rest
+                # if second does not exists, skip the rest
                 if len(chunk) == 1:
                     continue
 
                 row = chunk.iloc[1]
                 image_link = row['URL']
+                museum_link=row['source_URL']
+                museum_name=row['source']
+                date=row['date']
+                medium=row['medium']
+
                 image=url_image_embedder(image_link)
 
                 text=f"{row['title']} by {row['artist']}"
                 st.image(image, use_column_width=True)
-                st.caption(f"[{text}]({image_link})")
+                st.caption(f"[{text}]({museum_link})")
+                st.caption(f"{medium}, {date}")
+                st.caption(f"from the collection of {museum_name}")
+
+            with col3:
+                # if second does not exists, skip the rest
+                if len(chunk) == 1:
+                    continue
+
+                row = chunk.iloc[2]
+                image_link = row['URL']
+                museum_link=row['source_URL']
+                museum_name=row['source']
+                date=row['date']
+                medium=row['medium']
+
+                image=url_image_embedder(image_link)
+
+                text=f"{row['title']} by {row['artist']}"
+                st.image(image, use_column_width=True)
+                st.caption(f"[{text}]({museum_link})")
+                st.caption(f"{medium}, {date}")
+                st.caption(f"from the collection of {museum_name}")
+
+            with col4:
+                # if second does not exists, skip the rest
+                if len(chunk) == 1:
+                    continue
+
+                row = chunk.iloc[3]
+                image_link = row['URL']
+                museum_link=row['source_URL']
+                museum_name=row['source']
+                date=row['date']
+                medium=row['medium']
+
+                image=url_image_embedder(image_link)
+
+                text=f"{row['title']} by {row['artist']}"
+                st.image(image, use_column_width=True)
+                st.caption(f"[{text}]({museum_link})")
+                st.caption(f"{medium}, {date}")
+                st.caption(f"from the collection of {museum_name}")
 
         st.write(
             """<style>
             [data-testid="stHorizontalBlock"] {
                 align-items: baseline;
+            }
+            p {
+                margin-bottom: 0;
             }
             </style>
             """,
@@ -136,7 +191,7 @@ def main():
     with col5:
         upload = st.radio('Select an option', ('Upload an image', 'Take a picture'))
     with col6:
-        num_of_results = st.slider('How many results do you want?', 1, 20, 3)
+        num_of_results = st.slider('How many results do you want to see?', 4, 24, 4)
 
     if upload == 'Upload an image':
         image = st.file_uploader("Upload image", type=['jpg', 'png', 'jpeg'])
@@ -160,7 +215,6 @@ def main():
                 display_image_grid(prediction_df)
             else:
                 st.write('No results found')
-
 
 if __name__ == "__main__":
     main()
