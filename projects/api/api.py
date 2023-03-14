@@ -18,16 +18,19 @@ RESOURCE_PATH = os.getenv('RESOURCE_PATH')
 print('Database location:', DATABASE_LOCATION)
 print('Resource location:', RESOURCE_PATH)
 
+# TODO: THIS IS ONLY FOR TESTING (MVP)
+# DATABASE_LOCATION = "/database/database.db"
+# RESOURCE_PATH = "/resources/"
+
+db = DataStore(DATABASE_LOCATION)
+
 app = FastAPI()
 
-# TODO: move this to a config file
-db = DataStore('../../database/database.db')
-
-# TODO: move this to a config file
-RESOURCE_PATH = '../../resources/'
 model = CModel(resource_path=RESOURCE_PATH)
 # should be a function in Eric's code
 pca, X, filenames = model.get_model()
+
+print("test")
 
 
 @app.get("/recommend")
@@ -60,16 +63,19 @@ async def create_upload_file(file: UploadFile = File(...), num_of_results: int =
 
     # similar_images = df[df['objectID'].isin(nearest_neighbors)]
     # print(similar_images)
-
-    similar_images = db.get_info_by_object_ids(
-        'metropolitan', nearest_neighbors)
+    print(nearest_neighbors)
+    # similar_images = db.get_info_by_object_ids(
+    #     'metropolitan', nearest_neighbors)
+    similar_images = db.get_info_by_ids(nearest_neighbors)
 
     # create a categorical data type with the desired order as contained in the list nearest_neighbors
     cat_dtype = pd.CategoricalDtype(categories=nearest_neighbors, ordered=True)
     # convert the 'ObjectID' column to the categorical data type
-    similar_images['objectID'] = similar_images['objectID'].astype(cat_dtype)
+    # similar_images['objectID'] = similar_images['objectID'].astype(cat_dtype)
+    similar_images['id'] = similar_images['id'].astype(cat_dtype)
     # sort the DataFrame by the 'objectID' column
-    similar_images = similar_images.sort_values('objectID')
+    # similar_images = similar_images.sort_values('objectID')
+    similar_images = similar_images.sort_values('id')
     print("After Sorting")
     print(similar_images)
     # # replace NaN with empty string

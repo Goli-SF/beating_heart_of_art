@@ -12,9 +12,9 @@ uvicorn = "^0.20.0"
 pillow = "^9.4.0"
 pandas = "^1.5.3"
 python-multipart = "^0.0.6"
-database = {path = "../database", develop = true}
-interface = {path = "../interface"}
 python-dotenv = "^1.0.0"
+interface = {path = "../interface"}
+database = {path = "../database"}
 
 
 [build-system]

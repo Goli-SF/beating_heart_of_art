@@ -8,11 +8,19 @@ packages = [{include = "ml_test"}]
 
 [tool.poetry.dependencies]
 python = "~3.10"
-tensorflow-macos = "^2.11.0"
+# tensorflow-macos = "^2.11.0"
 tensorflow-metal = "^0.7.1"
 scikit-learn = "^1.2.1"
 matplotlib = "^3.7.1"
 pandas = "^1.5.3"
+tensorflow = [
+  { version = "^2.11.0", markers = "sys_platform == 'win32'" },
+  { version = "^2.11.0", markers = "sys_platform == 'linux'" }
+]
+
+tensorflow-macos = [
+  { version = "^2.11.0", markers = "sys_platform == 'darwin'" }
+]
 
 
 [tool.poetry.group.dev.dependencies]

@@ -1,0 +1,43 @@
+# - remove the 443 server section from the nginx config
+# -> docker-compose up
+# -> docker compose run --rm  certbot certonly --webroot --webroot-path /var/www/certbot/ -d art.dude.omg.lol
+# - docker-compose down
+# - add the 443 server section back to the nginx config
+# -> docker-compose up
+
+services:
+  app:
+    image: frontend
+    # restart: always
+    ports:
+      - "8501:8501" # 
+    # environment:
+    #   - PREDICTION_URL=http://backend:8000/uploader
+    env_file:
+      # - .env.local
+      - .env
+
+  backend:
+    image: beating_heart_of_art:dev
+    network_mode: service:app
+    # ports:
+      # - "8000:8000"
+    env_file:
+      - ../api/.env
+
+  # https://mindsers.blog/post/https-using-nginx-certbot-docker/
+  webserver:
+    image: nginx:latest
+    ports:
+      - 80:80
+      - 443:443
+    restart: always
+    volumes:
+      - ./nginx/conf/:/etc/nginx/conf.d/:ro
+      - ./certbot/www:/var/www/certbot/:ro
+      - ./certbot/conf/:/etc/nginx/ssl/:ro
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:rw
+      - ./certbot/conf/:/etc/letsencrypt/:rw

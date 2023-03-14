@@ -49,3 +49,10 @@ notebooks/.ipynb_checkpoints/
 projects/database/metropolitan/
 
 projects/api/.env
+
+img/moma/
+
+img/images_moma/
+img/**
+
+img/**

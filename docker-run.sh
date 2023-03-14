@@ -1,0 +1,1 @@
+docker run -it --rm -p 8000:8000 -e DATABASE_LOCATION="/database/database.db" -e RESOURCE_PATH="/resources/90k/" beating_heart_of_art:dev

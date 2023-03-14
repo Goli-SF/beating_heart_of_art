@@ -1,0 +1,1 @@
+docker build --build-arg UVICORN_PORT=8000 -t beating_heart_of_art:dev . 

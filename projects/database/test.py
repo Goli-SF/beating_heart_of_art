@@ -1,18 +1,41 @@
 import requests
+import pandas as pd
 from database.database import DataStore
 
 set_name = 'metropolitan'
 
 db = DataStore(
-    '/Users/guntherschulz/dev/beating_heart_of_art/database/database.db', images_directory='.')
+    '/Users/guntherschulz/dev/beating_heart_of_art/database/database.db')
 
-res = db.get_info_by_object_ids(
-    set_name, [470, 471])
-print(res['image_url'].values)
+# # load pickle file moma_df_update.pkl
+# df = pd.read_pickle('moma_rename.pkl')
+
+
+# db.load_df_to_sqlite(df, 'moma')
+
+# res = db.get_info_by_object_ids(
+#     set_name, [470, 471])
+# print(res['image_url'].values)
 
 # # db.load_csv_to_sqlite('moma.csv', 'moma')
 
 # print(db.list_all_tables())
+
+r = db.get_info_by_ids(['MTRP-001a2270-0cb3-4c51-8b78-ee6bc58a8674',
+                       'MOMA-adc4a537-6523-47a1-bbff-a9237fa68784'])
+print(r)
+
+# load pickle file moma_rename.pkl
+# df = pd.read_pickle('moma_rename.pkl')
+# print(df.columns)
+# print(df.head())
+
+# db.drop_table('moma')
+
+t = db.return_table('moma')
+# print column 'id' from head
+print(t['id'].head())
+print(t.columns)
 
 # images = db.get_images(set_name)
 
