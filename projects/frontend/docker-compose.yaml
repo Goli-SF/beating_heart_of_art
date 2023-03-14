@@ -6,7 +6,8 @@ services:
     # environment:
     #   - PREDICTION_URL=http://backend:8000/uploader
     env_file:
-      - .env.local
+      # - .env.local
+      - .env
 
     # networks:
     #   - front-tier
@@ -18,8 +19,9 @@ services:
 
   backend:
     image: beating_heart_of_art:dev
-    ports:
-      - "8000:8000"
+    network_mode: service:frontend
+    # ports:
+      # - "8000:8000"
     env_file:
       - ../api/.env
     # volumes:
