@@ -183,7 +183,7 @@ def main():
     with col1:
         st.title(APP_TITLE, )
     with col2:
-        st.image('../../interface/resources/beating-heart-reduced2-1.gif')
+        st.image('beating-heart-copy.gif')
     st.caption(APP_SUB_TITLE)
 
     # Radio with two upload options
