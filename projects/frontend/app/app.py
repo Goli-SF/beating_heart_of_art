@@ -184,7 +184,7 @@ def main():
         st.title(APP_TITLE, )
     with col2:
         st.image('./projects/interface/resources/beating-heart.gif')
-    st.caption(APP_SUB_TITLE)
+    st.markdown(f"####{APP_SUB_TITLE}")
 
     # Radio with two upload options
     col5, col6 = st.columns(2)
