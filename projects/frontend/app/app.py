@@ -104,7 +104,7 @@ def display_image_grid(df):
             # else:
             with col2:
                 # if second does not exists, skip the rest
-                if len(chunk) == 1:
+                if len(chunk) < 4:
                     continue
 
                 row = chunk.iloc[1]
@@ -124,7 +124,7 @@ def display_image_grid(df):
 
             with col3:
                 # if second does not exists, skip the rest
-                if len(chunk) == 1:
+                if len(chunk) < 4:
                     continue
 
                 row = chunk.iloc[2]
@@ -144,7 +144,7 @@ def display_image_grid(df):
 
             with col4:
                 # if second does not exists, skip the rest
-                if len(chunk) == 1:
+                if len(chunk) < 4:
                     continue
 
                 row = chunk.iloc[3]
