@@ -1,3 +1,10 @@
+# - remove the 443 server section from the nginx config
+# -> docker-compose up
+# -> docker compose run --rm  certbot certonly --webroot --webroot-path /var/www/certbot/ -d art.dude.omg.lol
+# - docker-compose down
+# - add the 443 server section back to the nginx config
+# -> docker-compose up
+
 services:
   app:
     image: frontend
@@ -9,14 +16,6 @@ services:
     env_file:
       # - .env.local
       - .env
-
-    # networks:
-    #   - front-tier
-    #   - back-tier
-    # configs:
-    #   - httpd-config
-    # secrets:
-    #   - server-certificate
 
   backend:
     image: beating_heart_of_art:dev
