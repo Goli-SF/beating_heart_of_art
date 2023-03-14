@@ -183,8 +183,7 @@ def main():
     with col1:
         st.title(APP_TITLE, )
     with col2:
-        st.image('./projects/frontend/app/beating-heart-copy.gif')
-        #st.write(os.getcwd())
+        st.image('./projects/interface/resources/beating-heart.gif')
     st.caption(APP_SUB_TITLE)
 
     # Radio with two upload options
