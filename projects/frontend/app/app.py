@@ -10,7 +10,7 @@ from PIL import Image
 APP_TITLE = 'The Beating Heart of Art'
 APP_SUB_TITLE = 'Discover similar artworks from the Metropolitan Museum of Art and MOMA'
 PROJECT_FOLDER = os.getcwd()
-PREDICTION_URL = os.getenv('PREDICTION_URL', 'http://localhost:8000/uploader')
+PREDICTION_URL = os.getenv('PREDICTION_URL', 'https://beating-heart-of-art-dwjnapaw3q-nw.a.run.app/uploader')
 
 
 def predict(image_data, num_of_results=10):
@@ -124,7 +124,7 @@ def display_image_grid(df):
 
             with col3:
                 # if second does not exists, skip the rest
-                if len(chunk) == 1:
+                if len(chunk) == 2:
                     continue
 
                 row = chunk.iloc[2]
@@ -144,7 +144,7 @@ def display_image_grid(df):
 
             with col4:
                 # if second does not exists, skip the rest
-                if len(chunk) == 1:
+                if len(chunk) == 3:
                     continue
 
                 row = chunk.iloc[3]
@@ -183,8 +183,8 @@ def main():
     with col1:
         st.title(APP_TITLE, )
     with col2:
-        st.image('../../interface/resources/beating-heart-reduced2-1.gif')
-    st.caption(APP_SUB_TITLE)
+        st.image('./projects/interface/resources/beating-heart.gif')
+    st.markdown(f"##### {APP_SUB_TITLE}")
 
     # Radio with two upload options
     col5, col6 = st.columns(2)

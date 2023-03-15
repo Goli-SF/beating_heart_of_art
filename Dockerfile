@@ -5,4 +5,4 @@ COPY requirements.txt /requirements.txt
 
 RUN pip install -r requirements.txt
 
-CMD uvicorn projects.api.fastapi:app --host 0.0.0.0 --port $PORT
+CMD uvicorn projects.api.api:app --host 0.0.0.0 --port $PORT
